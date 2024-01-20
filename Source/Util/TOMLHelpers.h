@@ -35,8 +35,7 @@
         toml_datum_t _tomlh_datum = toml_##type##_in(table, name);      \
         if (!_tomlh_datum.ok) {                                         \
             if (!optional) {                                            \
-                LOG_ERROR("Cannot find [" #type "]" name " in config."  \
-                          " Falling back to " #fallback);               \
+                LOG_ERROR("Cannot find [" #type "]" name " in config"); \
                 exit(EXIT_FAILURE);                                     \
             }                                                           \
             out = fallback;                                             \
@@ -65,7 +64,7 @@
                 out[i] = (int) _tomlh_array_elm.u.i;                                                       \
             } else {                                                                                       \
                 if (!optional) {                                                                           \
-                    LOG_ERROR("Config option " name "[%i] not found, falling back to %i", i, fallback[i]); \
+                    LOG_ERROR("Config option " name "[%i] not found", i);                                  \
                     exit(EXIT_FAILURE);                                                                    \
                 }                                                                                          \
                 out[i] = fallback[i];                                                                      \

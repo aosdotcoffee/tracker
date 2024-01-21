@@ -22,6 +22,6 @@ void server_update_clients(server_t* server);
 void server_handle_enet_connect(server_t* server, ENetEvent* event);
 void server_handle_enet_receive(server_t* server, ENetEvent* event);
 void server_handle_enet_disconnect(server_t* server, ENetEvent* event);
-void stop_server(server_t* server);
+void server_stop(server_t* server);
 
 #endif /* SERVER_H */

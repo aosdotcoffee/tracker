@@ -25,6 +25,7 @@ typedef enum {
     REASON_IP_LIMIT_EXCEEDED      = 2,
     REASON_WRONG_PROTOCOL_VERSION = 3,
     REASON_IDLE_FOR_TOO_LONG      = 4,
+    REASON_SERVER_SHUTTING_DOWN   = 5,
 } disconnected_reason_t;
 
 #endif /* ENUMS_H */

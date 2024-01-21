@@ -48,6 +48,15 @@ void server_start(server_t* server, const server_args* args)
         server_update_clients(server);
         sleep(0);
     }
+
+    // Server is shutting down
+    ENetPeer* peers = server->host->peers;
+    for (ENetPeer* peer = peers; peer < &peers[server->host->peerCount]; ++peer) {
+        enet_peer_disconnect_now(peer, REASON_SERVER_SHUTTING_DOWN);
+        free((client_t*) peer->data);
+    }
+
+    enet_host_destroy(server->host);
 }
 
 void server_receive_events(server_t* server)
@@ -154,4 +163,9 @@ void server_handle_enet_receive(server_t* server, ENetEvent* event)
     }
 
     enet_packet_destroy(event->packet);
+}
+
+void server_stop(server_t* server)
+{
+    server->running = 0;
 }

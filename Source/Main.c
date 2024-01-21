@@ -2,14 +2,18 @@
 #include <Server/Structs/ServerStruct.h>
 #include <Server/Structs/StartStruct.h>
 #include <Util/TOMLHelpers.h>
+#include <signal.h>
 #include <tomlc99/toml.h>
 
-const char* TRACKER_BANNER = "\n"
-        "                \x1b[1;32m▐           ▌        \n"
-        "                \x1b[1;32m▜▀ ▙▀▖▝▀▖▞▀▖▌▗▘▞▀▖▙▀▖\n"
-        "                \x1b[1;36m▐ ▖▌  ▞▀▌▌ ▖▛▚ ▛▀ ▌  \n"
-        "                \x1b[1;36m ▀ ▘  ▝▀▘▝▀ ▘ ▘▝▀▘▘  \n"
-        "\x1b[0;0m";
+static server_t g_server = {0};
+
+static void _on_signal(int signal)
+{
+    (void) signal;
+
+    LOG_STATUS("Shutting down");
+    server_stop(&g_server);
+}
 
 int main(void)
 {
@@ -27,14 +31,23 @@ int main(void)
     TOMLH_GET_INT(master_table, args.max_bandwidth_out, "max_bandwidth_out", 0, 1);
     TOMLH_GET_INT(master_table, args.channels, "channels", 2, 1);
 
-    server_t server = {0};
+    const char* TRACKER_BANNER = "\n"
+                                 "                \x1b[1;32m▐           ▌        \n"
+                                 "                \x1b[1;32m▜▀ ▙▀▖▝▀▖▞▀▖▌▗▘▞▀▖▙▀▖\n"
+                                 "                \x1b[1;36m▐ ▖▌  ▞▀▌▌ ▖▛▚ ▛▀ ▌  \n"
+                                 "                \x1b[1;36m ▀ ▘  ▝▀▘▝▀ ▘ ▘▝▀▘▘  \n"
+                                 "\x1b[0;0m";
 
     if (isatty(1)) {
         puts(TRACKER_BANNER);
     }
 
-    server_start(&server, &args);
+    signal(SIGTERM, _on_signal);
+    signal(SIGINT, _on_signal);
 
+    server_start(&g_server, &args);
+
+    // server stopped
     toml_free(parsed);
 
     return 0;

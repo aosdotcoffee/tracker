@@ -11,6 +11,7 @@ major_update_pkt* parse_major_update_packet(client_t* client, stream_t* stream)
     /* max_players (1B) + port (2B) + name (at least null terminator, 1B) */
     if (stream_left(stream) < 4) {
         LOG_CLIENT_WARNING(client, "Malformed MajorUpdate packet: packet too small");
+        free(packet);
         return NULL;
     }
 
@@ -21,6 +22,7 @@ major_update_pkt* parse_major_update_packet(client_t* client, stream_t* stream)
     /* at least give me the server name! */
     if (name_size == 0) {
         LOG_CLIENT_WARNING(client, "Malformed MajorUpdate packet: server has no name");
+        free(packet);
         return NULL;
     }
 

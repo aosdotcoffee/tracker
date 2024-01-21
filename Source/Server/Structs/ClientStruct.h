@@ -4,7 +4,7 @@
 #include <Server/Structs/GameserverStruct.h>
 #include <Server/Structs/TimerStruct.h>
 #include <Util/Enums.h>
-#include <enet/enet.h>
+#include <enet6/enet.h>
 #include <stdint.h>
 
 typedef struct server server_t;

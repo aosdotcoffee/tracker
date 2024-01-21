@@ -10,7 +10,10 @@ typedef struct server_args
     uint32_t channels;
 
     // master
-    uint16_t port;
+    uint16_t master_port;
+
+    // httpd
+    uint16_t httpd_port;
 } server_args;
 
 #endif

@@ -9,12 +9,11 @@
 #include <Server/Structs/ServerStruct.h>
 #include <Server/Structs/StartStruct.h>
 #include <Util/Enums.h>
-#include <enet/enet.h>
+#include <enet6/enet.h>
 #include <pthread.h>
 
-#ifndef DEFAULT_SERVER_PORT
-    #define DEFAULT_SERVER_PORT 32886
-#endif
+#define FOR_PEERS(host, peer) \
+    for (ENetPeer* peer = host->peers; peer < &host->peers[host->peerCount]; ++peer)
 
 void server_start(server_t* server, const server_args* args);
 void server_receive_events(server_t* server);

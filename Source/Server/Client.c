@@ -4,7 +4,7 @@
 #include <Util/Enums.h>
 #include <Util/Log.h>
 #include <Util/Nanos.h>
-#include <enet/enet.h>
+#include <enet6/enet.h>
 #include <string.h>
 
 void client_init(client_t* client)
@@ -64,11 +64,11 @@ void client_on_count_update_received(client_t* client, count_update_pkt* count_u
         return;
     }
 
+    client->gameserver.current_players = count_update->current_players;
+
     LOG_CLIENT_INFO(client,
                       "Updated  : [%s] [Players: %u/%u]",
                       client->gameserver.name,
                       count_update->current_players,
                       client->gameserver.max_players);
-
-    (void) count_update;
 }

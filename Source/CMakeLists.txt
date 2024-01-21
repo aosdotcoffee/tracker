@@ -15,7 +15,7 @@ target_include_directories(TrackerCommon
         ${CMAKE_CURRENT_SOURCE_DIR}
         ${PROJECT_SOURCE_DIR}/Extern
         ${PROJECT_SOURCE_DIR}/Extern/tomlc99
-        ${PROJECT_SOURCE_DIR}/Extern/enet/include
+        ${PROJECT_SOURCE_DIR}/Extern/enet6/include
 )
 
 add_subdirectory(Util)

@@ -26,12 +26,14 @@ set(SERVER_HEADERS
     ${STRUCTS_HEADERS}
     Server.h
     Client.h
+    Httpd.h
 )
 
 set(SERVER_SOURCES
     ${PACKET_SOURCES}
     Server.c
     Client.c
+    Httpd.c
 )
 
 target_sources(Server

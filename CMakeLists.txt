@@ -27,15 +27,39 @@ add_subdirectory(Source)
 
 # Enable sanitizers
 # Comes before the other libraries because ASAN needs to be first
-if (SANITIZERS)
+if (ASAN)
+    if (TSAN)
+        message(FATAL_ERROR "You cannot enable ASAN and TSAN at the same time")
+    endif()
+
     add_compile_options(
         -fsanitize=address
-        -fsanitize=undefined
     )
 
     target_link_libraries(Tracker
         PRIVATE
             asan
+    )
+endif()
+
+if (TSAN)
+    add_compile_options(
+        -fsanitize=thread
+    )
+
+    target_link_libraries(Tracker
+        PRIVATE
+            tsan
+    )
+endif()
+
+if (UBSAN)
+    add_compile_options(
+        -fsanitize=undefined
+    )
+
+    target_link_libraries(Tracker
+        PRIVATE
             ubsan
     )
 endif()
@@ -49,4 +73,5 @@ target_link_libraries(Tracker
         json-c
         Threads::Threads
         tomlc99
+        microhttpd
 )

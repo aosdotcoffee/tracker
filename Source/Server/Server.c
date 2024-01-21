@@ -1,7 +1,9 @@
 #include <Server/Client.h>
+#include <Server/Httpd.h>
 #include <Server/Packets/0_75/CountUpdate.h>
 #include <Server/Packets/0_75/MajorUpdate.h>
 #include <Server/Server.h>
+#include <enet6/enet.h>
 #include <Server/Structs/ServerStruct.h>
 #include <Server/Structs/StartStruct.h>
 #include <Util/Alloc.h>
@@ -21,11 +23,14 @@ void server_start(server_t* server, const server_args* args)
     ENSURE(enet_initialize() == 0, "Failed to initialize ENet");
     atexit(enet_deinitialize);
 
+    ENSURE(pthread_mutex_init(&server->lock, NULL) == 0,
+           "Server mutex failed to initialize");
+
     ENetAddress address;
     enet_address_build_any(&address, ENET_ADDRESS_TYPE_IPV6);
-    address.port = args->port;
+    address.port = args->master_port;
 
-    LOG_STATUS("Creating server at port %d", args->port);
+    LOG_STATUS("Creating master at port %d", args->master_port);
     server->host = enet_host_create(ENET_ADDRESS_TYPE_IPV6,
                                     &address,
                                     args->max_connections,
@@ -41,22 +46,28 @@ void server_start(server_t* server, const server_args* args)
     server->clients = NULL;
     server->running = 1;
 
-    LOG_STATUS("Server started");
+    httpd_start(server, args->httpd_port);
+    LOG_STATUS("Master started");
 
     while (server->running) {
+        pthread_mutex_lock(&server->lock);
         server_receive_events(server);
         server_update_clients(server);
+        pthread_mutex_unlock(&server->lock);
         sleep(0);
     }
 
     // Server is shutting down
-    ENetPeer* peers = server->host->peers;
-    for (ENetPeer* peer = peers; peer < &peers[server->host->peerCount]; ++peer) {
+    FOR_PEERS(server->host, peer)
+    {
         enet_peer_disconnect_now(peer, REASON_SERVER_SHUTTING_DOWN);
         free((client_t*) peer->data);
     }
 
+    LOG_STATUS("Master stopped");
+    httpd_stop(server);
     enet_host_destroy(server->host);
+    pthread_mutex_destroy(&server->lock);
 }
 
 void server_receive_events(server_t* server)
@@ -73,6 +84,7 @@ void server_receive_events(server_t* server)
                 server_handle_enet_connect(server, &event);
                 break;
 
+            case ENET_EVENT_TYPE_DISCONNECT_TIMEOUT:
             case ENET_EVENT_TYPE_DISCONNECT:
                 server_handle_enet_disconnect(server, &event);
                 break;
@@ -86,14 +98,11 @@ void server_receive_events(server_t* server)
 
 void server_update_clients(server_t* server)
 {
-    ENetPeer* peers = server->host->peers;
-
-    for (ENetPeer* peer = peers; peer < &peers[server->host->peerCount]; ++peer) {
-        if (peer->state != ENET_PEER_STATE_CONNECTED) {
-            continue;
+    FOR_PEERS(server->host, peer)
+    {
+        if (peer->state == ENET_PEER_STATE_CONNECTED) {
+            client_update((client_t*) peer->data);
         }
-
-        client_update((client_t*) peer->data);
     }
 }
 
@@ -136,7 +145,13 @@ void server_handle_enet_disconnect(server_t* server, ENetEvent* event)
         return;
     }
 
-    LOG_CLIENT_STATUS(client, "Disconnected");
+    if (event->type == ENET_EVENT_TYPE_DISCONNECT) {
+        LOG_CLIENT_STATUS(client, "Disconnected: client closed connection");
+    }
+
+    if (event->type == ENET_EVENT_TYPE_DISCONNECT_TIMEOUT) {
+        LOG_CLIENT_STATUS(client, "Disconnected: timed out");
+    }
 }
 
 void server_handle_enet_receive(server_t* server, ENetEvent* event)

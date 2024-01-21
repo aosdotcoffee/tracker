@@ -75,3 +75,8 @@ target_link_libraries(Tracker
         tomlc99
         microhttpd
 )
+
+# copy default config
+if (NOT EXISTS ${CMAKE_BINARY_DIR}/config.toml)
+    configure_file(${PROJECT_SOURCE_DIR}/Resources/config.toml ${CMAKE_BINARY_DIR}/config.toml COPYONLY)
+endif()

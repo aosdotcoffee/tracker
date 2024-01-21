@@ -1,0 +1,22 @@
+[master]
+# The port for master to listen on
+port = 32886
+
+# optional: max number of clients allowed
+# max_connections = 128
+
+# optional: max incoming bandwidth. 0 to disable
+# max_bandwidth_in = 0
+
+# optional: max outgoing bandwidth. 0 to disable
+# max_bandwidth_out = 0
+
+# optional: enet channels
+# channels = 2
+
+# optional: time in ms after which a client should be kicked if no server was announced
+# idle_timeout = 15000
+
+[httpd]
+# The port for the http server to listen on
+port = 32885

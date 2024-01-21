@@ -6,5 +6,5 @@ if(NOT EXISTS enet/CMakeLists.txt OR NOT EXISTS tomlc99/tomlc99/toml.h)
     COMMAND_ERROR_IS_FATAL ANY)
 endif()
 
-add_subdirectory(enet)
+add_subdirectory(enet6)
 add_subdirectory(tomlc99)

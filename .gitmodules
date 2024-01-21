@@ -1,6 +1,6 @@
-[submodule "Extern/enet"]
-	path = Extern/enet
-	url = https://github.com/SpadesX/enet
 [submodule "Extern/tomlc99/tomlc99"]
 	path = Extern/tomlc99/tomlc99
 	url = https://github.com/cktan/tomlc99
+[submodule "Extern/enet6"]
+	path = Extern/enet6
+	url = https://github.com/SirLynix/enet6.git

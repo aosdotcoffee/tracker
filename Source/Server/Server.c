@@ -43,6 +43,7 @@ void server_start(server_t* server, const server_args* args)
 
     LOG_STATUS("Initializing server");
 
+    server->idle_timeout = args->idle_timeout * NANO_IN_MILLI;
     server->clients = NULL;
     server->running = 1;
 

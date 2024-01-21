@@ -32,6 +32,7 @@ int main(void)
     TOMLH_GET_INT(master_table, args.max_bandwidth_in, "max_bandwidth_in", 0, 1);
     TOMLH_GET_INT(master_table, args.max_bandwidth_out, "max_bandwidth_out", 0, 1);
     TOMLH_GET_INT(master_table, args.channels, "channels", 2, 1);
+    TOMLH_GET_INT(master_table, args.idle_timeout, "idle_timeout", 15000, 1);
 
     /* [httpd] */
     TOMLH_GET_TABLE(parsed, httpd_table, "httpd");

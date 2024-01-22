@@ -82,6 +82,14 @@ void client_on_count_update_received(client_t* client, count_update_pkt* count_u
         return;
     }
 
+    if (count_update->current_players > client->gameserver.max_players) {
+        LOG_CLIENT_WARNING(client,
+                           "Discarded CountUpdate with count %u/%u",
+                           count_update->current_players,
+                           client->gameserver.max_players);
+        return;
+    }
+
     client->gameserver.current_players = count_update->current_players;
 
     LOG_CLIENT_INFO(client,

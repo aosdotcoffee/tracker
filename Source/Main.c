@@ -56,6 +56,7 @@ int main(void)
     server_start(&g_server, &args);
 
     // server stopped
+    free(args.mmdb_path);
     toml_free(parsed);
 
     return 0;

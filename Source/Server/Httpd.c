@@ -43,12 +43,35 @@ static enum MHD_Result _httpd_process_request(void*                  cls,
             continue;
         }
 
-        char identifier[32];
-        snprintf(identifier,
-                 31,
-                 "aos://%u:%u",
-                 (uint32_t) *peer->address.host.v4,
-                 client->gameserver.port);
+        ENetAddress address;
+        memcpy(&address, &peer->address, sizeof(ENetAddress));
+        address.port = 0;
+
+        char identifier[54];
+        if (address.host.v6[0] == 0 && address.host.v6[1] == 0 &&
+            address.host.v6[2] == 0 && address.host.v6[3] == 0 &&
+            address.host.v6[4] == 0 && address.host.v6[5] == 0xFFFF)
+        {
+            /* if mapped v4 */
+            uint32_t address_decimal = 0;
+
+            address_decimal |= ((uint32_t) (peer->address.host.v6[6] & 0xFF00) >> 8);
+            address_decimal |= ((uint32_t) peer->address.host.v6[6] & 0x00FF) << 8;
+            address_decimal |= ((uint32_t) (peer->address.host.v6[7] & 0xFF00) >> 8)
+                            << 16;
+            address_decimal |= ((uint32_t) peer->address.host.v6[7] & 0x00FF) << 24;
+
+            snprintf(
+            identifier, 31, "aos://%u:%u", address_decimal, client->gameserver.port);
+        } else {
+            /* if plain v6 */
+            char ipv6_address[39];
+
+            ENSURE(enet_address_get_host_ip(&address, ipv6_address, 48) == 0,
+                   "Failed to get host IPv6 address");
+
+            snprintf(identifier, 53, "aos://[%s]:%u", ipv6_address, client->gameserver.port);
+        }
 
         struct json_object* obj = json_object_new_object();
         JSON_SET_STRING(obj, "name", client->gameserver.name);

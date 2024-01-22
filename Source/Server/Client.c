@@ -15,7 +15,11 @@ void client_init(client_t* client)
 
     if (client->server->has_mmdb) {
         char ip_address[48];
-        enet_address_get_host_ip(&client->peer->address, ip_address, 48);
+        ENetAddress address;
+        memcpy(&address, &client->peer->address, sizeof(ENetAddress));
+        address.port = 0;
+
+        enet_address_get_host_ip(&address, ip_address, 48);
 
         int result = geoip_get_alpha2_country(
         &client->server->mmdb, client->gameserver.country_code, ip_address);

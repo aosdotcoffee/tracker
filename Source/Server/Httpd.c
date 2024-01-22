@@ -70,7 +70,8 @@ static enum MHD_Result _httpd_process_request(void*                  cls,
             ENSURE(enet_address_get_host_ip(&address, ipv6_address, 48) == 0,
                    "Failed to get host IPv6 address");
 
-            snprintf(identifier, 53, "aos://[%s]:%u", ipv6_address, client->gameserver.port);
+            snprintf(
+            identifier, 53, "aos://[%s]:%u", ipv6_address, client->gameserver.port);
         }
 
         struct json_object* obj = json_object_new_object();
@@ -110,13 +111,10 @@ void httpd_start(server_t* server, uint16_t port)
 {
     LOG_STATUS("Creating httpd at port %d", port);
 
-    server->httpd = MHD_start_daemon(MHD_USE_INTERNAL_POLLING_THREAD,
-                                     port,
-                                     NULL,
-                                     NULL,
-                                     &_httpd_process_request,
-                                     (void*) server,
-                                     MHD_OPTION_END);
+    int flags = MHD_USE_INTERNAL_POLLING_THREAD | MHD_USE_DUAL_STACK;
+
+    server->httpd = MHD_start_daemon(
+    flags, port, NULL, NULL, &_httpd_process_request, (void*) server, MHD_OPTION_END);
 
     ENSURE(server->httpd != NULL, "Failed to start libmicrohttpd daemon");
 

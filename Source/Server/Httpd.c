@@ -79,7 +79,7 @@ static enum MHD_Result _httpd_process_request(void*                  cls,
         JSON_SET_STRING(obj, "game_version", "0.75");
         JSON_SET_STRING(obj, "identifier", identifier);
         JSON_SET_STRING(obj, "map", client->gameserver.map);
-        JSON_SET_STRING(obj, "gamemode", client->gameserver.gamemode);
+        JSON_SET_STRING(obj, "game_mode", client->gameserver.gamemode);
         JSON_SET_STRING(obj, "country", client->gameserver.country_code);
         JSON_SET_INT(obj, "latency", 0);
         JSON_SET_INT(obj, "players_current", client->gameserver.current_players);

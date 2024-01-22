@@ -33,7 +33,7 @@ void client_init(client_t* client)
 
 void client_destroy(client_t* client)
 {
-    (void) client;
+    free(client);
 }
 
 void client_update(client_t* client)

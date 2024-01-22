@@ -162,6 +162,9 @@ void server_handle_enet_disconnect(server_t* server, ENetEvent* event)
     if (event->type == ENET_EVENT_TYPE_DISCONNECT_TIMEOUT) {
         LOG_CLIENT_STATUS(client, "Disconnected: timed out");
     }
+
+    client_destroy(client);
+    event->peer->data = NULL;
 }
 
 void server_handle_enet_receive(server_t* server, ENetEvent* event)

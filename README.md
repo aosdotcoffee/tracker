@@ -10,6 +10,7 @@ install these libraries and their `-dev` packages:
 - json-c
 - pthreads
 - libmicrohttpd
+- libmaxminddb
 
 ## Installing
 

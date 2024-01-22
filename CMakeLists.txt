@@ -5,6 +5,8 @@ project(Tracker)
 
 # Dependencies
 find_package(Threads REQUIRED)
+find_package(PkgConfig)
+pkg_check_modules(MMDB REQUIRED libmaxminddb)
 
 # Third-party dependencies
 add_subdirectory(Extern)
@@ -74,6 +76,17 @@ target_link_libraries(Tracker
         Threads::Threads
         tomlc99
         microhttpd
+        ${MMDB_LIBRARIES}
+)
+
+target_include_directories(Tracker
+    PRIVATE
+        ${MMDB_INCLUDE_DIRS}
+)
+
+target_compile_options(Tracker
+    PRIVATE
+        ${MMDB_CFLAGS_OTHER}
 )
 
 # copy default config

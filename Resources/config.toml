@@ -2,6 +2,9 @@
 # The port for master to listen on
 port = 32886
 
+# optional: path to your MaxMind database file
+mmdb_path = "GeoLite2-Country.mmdb"
+
 # optional: max number of clients allowed
 # max_connections = 128
 

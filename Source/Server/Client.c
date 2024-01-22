@@ -1,4 +1,5 @@
 #include <Server/Client.h>
+#include <Server/GeoIP.h>
 #include <Server/Structs/ServerStruct.h>
 #include <Util/DataStream.h>
 #include <Util/Enums.h>
@@ -11,6 +12,19 @@ void client_init(client_t* client)
 {
     client->timers.connection_established = time_now();
     client->state                         = STATE_READY;
+
+    if (client->server->has_mmdb) {
+        char ip_address[48];
+        enet_address_get_host_ip(&client->peer->address, ip_address, 48);
+
+        int result = geoip_get_alpha2_country(
+        &client->server->mmdb, client->gameserver.country_code, ip_address);
+
+        if (result != 0) {
+            LOG_CLIENT_WARNING(client, "Could not look up GeoIP");
+            client->gameserver.country_code[0] = '\0';
+        }
+    }
 }
 
 void client_destroy(client_t* client)
@@ -67,8 +81,8 @@ void client_on_count_update_received(client_t* client, count_update_pkt* count_u
     client->gameserver.current_players = count_update->current_players;
 
     LOG_CLIENT_INFO(client,
-                      "Updated  : [%s] [Players: %u/%u]",
-                      client->gameserver.name,
-                      count_update->current_players,
-                      client->gameserver.max_players);
+                    "Updated  : [%s] [Players: %u/%u]",
+                    client->gameserver.name,
+                    count_update->current_players,
+                    client->gameserver.max_players);
 }

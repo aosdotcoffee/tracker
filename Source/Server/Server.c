@@ -1,15 +1,16 @@
 #include <Server/Client.h>
+#include <Server/GeoIP.h>
 #include <Server/Httpd.h>
 #include <Server/Packets/0_75/CountUpdate.h>
 #include <Server/Packets/0_75/MajorUpdate.h>
 #include <Server/Server.h>
-#include <enet6/enet.h>
 #include <Server/Structs/ServerStruct.h>
 #include <Server/Structs/StartStruct.h>
 #include <Util/Alloc.h>
 #include <Util/Ensure.h>
 #include <Util/Log.h>
 #include <Util/Nanos.h>
+#include <enet6/enet.h>
 #include <inttypes.h>
 #include <pthread.h>
 #include <stdio.h>
@@ -41,11 +42,20 @@ void server_start(server_t* server, const server_args* args)
     ENSURE(enet_host_compress_with_range_coder(server->host) == 0,
            "Failed to enable range coder");
 
+    if (args->mmdb_path[0] != '\0') {
+        LOG_STATUS("Initializing MMDB");
+        ENSURE(geoip_init(&server->mmdb, args->mmdb_path) == 0, "Failed to initialize MMDB");
+        server->has_mmdb = 1;
+    } else {
+        LOG_WARNING("No MMDB path specified, GeoIP will be disabled");
+        server->has_mmdb = 0;
+    }
+
     LOG_STATUS("Initializing server");
 
     server->idle_timeout = args->idle_timeout * NANO_IN_MILLI;
-    server->clients = NULL;
-    server->running = 1;
+    server->clients      = NULL;
+    server->running      = 1;
 
     httpd_start(server, args->httpd_port);
     LOG_STATUS("Master started");
@@ -133,7 +143,7 @@ void server_handle_enet_connect(server_t* server, ENetEvent* event)
     event->peer->data = client;
 
     client_init(client);
-    LOG_CLIENT_STATUS(client, "Connected");
+    LOG_CLIENT_STATUS(client, "Connected [Country: %s]", client->gameserver.country_code);
 }
 
 void server_handle_enet_disconnect(server_t* server, ENetEvent* event)

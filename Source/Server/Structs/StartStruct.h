@@ -12,6 +12,7 @@ typedef struct server_args
     // master
     uint16_t master_port;
     uint64_t idle_timeout;
+    char*    mmdb_path;
 
     // httpd
     uint16_t httpd_port;

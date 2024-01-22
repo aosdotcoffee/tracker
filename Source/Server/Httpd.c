@@ -46,7 +46,7 @@ static enum MHD_Result _httpd_process_request(void*                  cls,
         char identifier[32];
         snprintf(identifier,
                  31,
-                 "aos://%u:%u:0.75",
+                 "aos://%u:%u",
                  (uint32_t) *peer->address.host.v4,
                  client->gameserver.port);
 
@@ -56,7 +56,7 @@ static enum MHD_Result _httpd_process_request(void*                  cls,
         JSON_SET_STRING(obj, "identifier", identifier);
         JSON_SET_STRING(obj, "map", client->gameserver.map);
         JSON_SET_STRING(obj, "gamemode", client->gameserver.gamemode);
-        JSON_SET_STRING(obj, "country", "AQ");
+        JSON_SET_STRING(obj, "country", client->gameserver.country_code);
         JSON_SET_INT(obj, "latency", 0);
         JSON_SET_INT(obj, "players_current", client->gameserver.current_players);
         JSON_SET_INT(obj, "players_max", client->gameserver.max_players);

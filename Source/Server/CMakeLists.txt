@@ -27,6 +27,7 @@ set(SERVER_HEADERS
     Server.h
     Client.h
     Httpd.h
+    GeoIP.h
 )
 
 set(SERVER_SOURCES
@@ -34,6 +35,7 @@ set(SERVER_SOURCES
     Server.c
     Client.c
     Httpd.c
+    GeoIP.c
 )
 
 target_sources(Server

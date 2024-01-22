@@ -5,6 +5,7 @@
 #include <Server/Structs/TimerStruct.h>
 #include <enet6/enet.h>
 #include <signal.h>
+#include <maxminddb.h>
 
 typedef struct server
 {
@@ -12,6 +13,8 @@ typedef struct server
     client_t*             clients;
     global_timers_t       global_timers;
     struct MHD_Daemon*    httpd;
+    MMDB_s                mmdb;
+    uint8_t               has_mmdb;
     pthread_mutex_t       lock;
     volatile sig_atomic_t running; // volatile keyword is required to have an access to this variable in any thread
 

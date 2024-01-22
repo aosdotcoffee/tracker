@@ -11,7 +11,6 @@
 #include <Util/Log.h>
 #include <Util/Nanos.h>
 #include <enet6/enet.h>
-#include <inttypes.h>
 #include <pthread.h>
 #include <stdio.h>
 

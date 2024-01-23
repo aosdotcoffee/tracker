@@ -124,7 +124,8 @@ void server_handle_enet_connect(server_t* server, ENetEvent* event)
 {
     /* check if the client is connecting with the right version */
     if (event->data != VERSION_17 &&
-        event->data != VERSION_31) {
+        event->data != VERSION_31 &&
+        event->data != VERSION_23) {
         char ip_address[48];
         enet_address_get_host_ip(&event->peer->address, ip_address, 48);
 
@@ -236,6 +237,7 @@ void server_handle_enet_receive(server_t* server, ENetEvent* event)
             break;
 
         case VERSION_17:
+        case VERSION_23:
             major_update = parse_v17_major_update_packet(client, &stream);
             break;
 

@@ -79,6 +79,7 @@ static enum MHD_Result _httpd_process_request(void*                  cls,
         const char* version;
         switch(client->version) {
             case VERSION_17: version = "0.54"; break;
+            case VERSION_23: version = "0.60"; break;
             case VERSION_31: version = "0.75"; break;
             default:         version = "0.00"; break;
         }

@@ -12,6 +12,7 @@ target_sources(Util
         Nanos.c
     PUBLIC
         Enums.h
+        JSONHelpers.h
         TOMLHelpers.h
         DataStream.h
         Log.h

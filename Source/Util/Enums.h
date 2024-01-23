@@ -17,7 +17,8 @@ typedef enum {
 } state_t;
 
 typedef enum {
-    VERSION_0_75 = 31,
+    VERSION_17 = 17,
+    VERSION_31 = 31,
 } protocol_version_t;
 
 typedef enum {

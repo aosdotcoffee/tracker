@@ -1,5 +1,5 @@
 #include <Server/Structs/ClientStruct.h>
-#include <Server/Packets/0_75/CountUpdate.h>
+#include <Server/Packets/CountUpdate.h>
 #include <Util/DataStream.h>
 #include <Util/Alloc.h>
 

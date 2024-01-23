@@ -1,8 +1,8 @@
 #include <Server/Client.h>
 #include <Server/GeoIP.h>
 #include <Server/Httpd.h>
-#include <Server/Packets/0_75/CountUpdate.h>
-#include <Server/Packets/0_75/MajorUpdate.h>
+#include <Server/Packets/CountUpdate.h>
+#include <Server/Packets/MajorUpdate.h>
 #include <Server/Server.h>
 #include <Server/Structs/ServerStruct.h>
 #include <Server/Structs/StartStruct.h>
@@ -123,14 +123,14 @@ void server_update_clients(server_t* server)
 void server_handle_enet_connect(server_t* server, ENetEvent* event)
 {
     /* check if the client is connecting with the right version */
-    if (event->data != VERSION_0_75) {
+    if (event->data != VERSION_17 &&
+        event->data != VERSION_31) {
         char ip_address[48];
         enet_address_get_host_ip(&event->peer->address, ip_address, 48);
 
-        LOG_WARNING("%s tried to connect with protocol %u, but only %u is supported",
+        LOG_WARNING("%s tried to connect with unsupported protocol %u",
                     ip_address,
-                    event->data,
-                    VERSION_0_75);
+                    event->data);
 
         enet_peer_disconnect_now(event->peer, REASON_WRONG_PROTOCOL_VERSION);
         return;
@@ -174,15 +174,18 @@ void server_handle_enet_connect(server_t* server, ENetEvent* event)
 
     ALLOC_STRUCT(client, client_t);
 
-    client->server = server;
-    client->peer   = event->peer;
+    client->version = event->data;
+    client->server  = server;
+    client->peer    = event->peer;
 
     /* in future events, we can use ((client_t*) event->peer->data) to access the client
      * struct easily */
     event->peer->data = client;
 
     client_init(client);
-    LOG_CLIENT_STATUS(client, "Connected [Country: %s]", client->gameserver.country_code);
+    LOG_CLIENT_STATUS(client, "Connected [Country: %s] [Version: %u]",
+                      client->gameserver.country_code,
+                      client->version);
 }
 
 void server_handle_enet_disconnect(server_t* server, ENetEvent* event)
@@ -225,11 +228,28 @@ void server_handle_enet_receive(server_t* server, ENetEvent* event)
         client_on_count_update_received(client, count_update);
         free(count_update);
     } else {
-        major_update_pkt* major_update = parse_major_update_packet(client, &stream);
+        major_update_pkt* major_update;
+
+        switch(client->version) {
+        case VERSION_31:
+            major_update = parse_v31_major_update_packet(client, &stream);
+            break;
+
+        case VERSION_17:
+            major_update = parse_v17_major_update_packet(client, &stream);
+            break;
+
+        default:
+            LOG_CLIENT_ERROR(client,
+                             "Received MajorUpdate on a version that doesn't support it");
+            goto end;
+        }
+
         client_on_major_update_received(client, major_update);
         free(major_update);
     }
 
+end:
     enet_packet_destroy(event->packet);
 }
 

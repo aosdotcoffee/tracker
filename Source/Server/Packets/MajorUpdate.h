@@ -15,6 +15,7 @@ typedef struct major_update_packet
     char     map[MAX_MAP_LENGTH];
 } major_update_pkt;
 
-major_update_pkt* parse_major_update_packet(client_t* client, stream_t* stream);
+major_update_pkt* parse_v31_major_update_packet(client_t* client, stream_t* stream);
+major_update_pkt* parse_v17_major_update_packet(client_t* client, stream_t* stream);
 
 #endif

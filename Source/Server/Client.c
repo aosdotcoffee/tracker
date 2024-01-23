@@ -51,7 +51,7 @@ void client_update(client_t* client)
 void client_on_major_update_received(client_t* client, major_update_pkt* major_update)
 {
     if (!major_update) {
-        LOG_ERROR("Invalid MajorUpdate received");
+        LOG_CLIENT_ERROR(client, "Invalid MajorUpdate received");
         return;
     }
 

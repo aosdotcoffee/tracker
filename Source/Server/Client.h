@@ -2,8 +2,8 @@
 #define CLIENT_H
 
 #include <Server/Structs/ServerStruct.h>
-#include <Server/Packets/0_75/MajorUpdate.h>
-#include <Server/Packets/0_75/CountUpdate.h>
+#include <Server/Packets/MajorUpdate.h>
+#include <Server/Packets/CountUpdate.h>
 #include <Util/DataStream.h>
 
 void client_init(client_t* client);

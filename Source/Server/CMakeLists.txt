@@ -5,13 +5,13 @@
 add_library(Server STATIC "")
 
 set(PACKET_HEADERS
-    Packets/0_75/MajorUpdate.h
-    Packets/0_75/CountUpdate.h
+    Packets/MajorUpdate.h
+    Packets/CountUpdate.h
 )
 
 set(PACKET_SOURCES
-    Packets/0_75/MajorUpdate.c
-    Packets/0_75/CountUpdate.c
+    Packets/MajorUpdate.c
+    Packets/CountUpdate.c
 )
 
 set(STRUCTS_HEADERS

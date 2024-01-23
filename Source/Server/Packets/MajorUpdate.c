@@ -1,10 +1,10 @@
-#include <Server/Packets/0_75/MajorUpdate.h>
+#include <Server/Packets/MajorUpdate.h>
 #include <Server/Structs/ClientStruct.h>
 #include <Util/Alloc.h>
 #include <Util/DataStream.h>
 #include <Util/Log.h>
 
-major_update_pkt* parse_major_update_packet(client_t* client, stream_t* stream)
+major_update_pkt* parse_v31_major_update_packet(client_t* client, stream_t* stream)
 {
     ALLOC_STRUCT(packet, major_update_pkt);
 
@@ -29,6 +29,25 @@ major_update_pkt* parse_major_update_packet(client_t* client, stream_t* stream)
     /* it's ok if these are empty */
     stream_read_string(stream, packet->gamemode, 8);
     stream_read_string(stream, packet->map, 20);
+
+    return packet;
+}
+
+major_update_pkt* parse_v17_major_update_packet(client_t* client, stream_t* stream)
+{
+    ALLOC_STRUCT(packet, major_update_pkt);
+
+    /* max_players (1B) + name (at least null terminator, 1B) */
+    if (stream_left(stream) < 3) {
+        LOG_CLIENT_WARNING(client, "Malformed MajorUpdate packet: packet too small");
+        free(packet);
+        return NULL;
+    }
+
+    packet->max_players = stream_read_u8(stream);
+    packet->port        = 32887; // this version of the protocol doesn't send the port!
+
+    stream_read_string(stream, packet->name, 32);
 
     return packet;
 }

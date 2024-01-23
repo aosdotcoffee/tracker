@@ -71,4 +71,10 @@ void log_print_with_time(const char* format, ...);
     "\x1b[1;30m[\x1b[1;33mWARN  \x1b[1;30m] \x1b[0;37m%s \x1b[0;33m| " __VA_ARGS__, \
     "\x1B[0;37m\n")
 
+#define LOG_CLIENT_ERROR(client, ...)                                               \
+    LOG__CLIENT_INT(                                                                \
+    client,                                                                         \
+    "\x1b[1;30m[\x1b[1;31mERROR \x1b[1;30m] \x1b[0;37m%s \x1b[0;33m| " __VA_ARGS__, \
+    "\x1B[0;37m\n")
+
 #endif // LOG_H

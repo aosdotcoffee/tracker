@@ -75,7 +75,15 @@ static enum MHD_Result _httpd_process_request(void*                  cls,
 
         struct json_object* obj = json_object_new_object();
         JSON_SET_STRING(obj, "name", client->gameserver.name);
-        JSON_SET_STRING(obj, "game_version", "0.75");
+
+        const char* version;
+        switch(client->version) {
+            case VERSION_17: version = "0.54"; break;
+            case VERSION_31: version = "0.75"; break;
+            default:         version = "0.00"; break;
+        }
+
+        JSON_SET_STRING(obj, "game_version", version);
         JSON_SET_STRING(obj, "identifier", identifier);
         JSON_SET_STRING(obj, "map", client->gameserver.map);
         JSON_SET_STRING(obj, "game_mode", client->gameserver.gamemode);

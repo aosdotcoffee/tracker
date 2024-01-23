@@ -7,12 +7,14 @@
 #include <Server/Structs/ServerStruct.h>
 #include <Server/Structs/StartStruct.h>
 #include <Util/Alloc.h>
+#include <Util/ENetHelpers.h>
 #include <Util/Ensure.h>
 #include <Util/Log.h>
 #include <Util/Nanos.h>
 #include <enet6/enet.h>
 #include <pthread.h>
 #include <stdio.h>
+#include <string.h>
 
 void server_start(server_t* server, const server_args* args)
 {
@@ -43,7 +45,8 @@ void server_start(server_t* server, const server_args* args)
 
     if (args->mmdb_path[0] != '\0') {
         LOG_STATUS("Initializing MMDB");
-        ENSURE(geoip_init(&server->mmdb, args->mmdb_path) == 0, "Failed to initialize MMDB");
+        ENSURE(geoip_init(&server->mmdb, args->mmdb_path) == 0,
+               "Failed to initialize MMDB");
         server->has_mmdb = 1;
     } else {
         LOG_WARNING("No MMDB path specified, GeoIP will be disabled");
@@ -52,9 +55,10 @@ void server_start(server_t* server, const server_args* args)
 
     LOG_STATUS("Initializing server");
 
-    server->idle_timeout = args->idle_timeout * NANO_IN_MILLI;
-    server->clients      = NULL;
-    server->running      = 1;
+    server->idle_timeout              = args->idle_timeout * NANO_IN_MILLI;
+    server->max_connections_per_range = args->max_connections_per_range;
+    server->clients                   = NULL;
+    server->running                   = 1;
 
     httpd_start(server, args->httpd_port);
     LOG_STATUS("Master started");
@@ -129,6 +133,42 @@ void server_handle_enet_connect(server_t* server, ENetEvent* event)
                     VERSION_0_75);
 
         enet_peer_disconnect_now(event->peer, REASON_WRONG_PROTOCOL_VERSION);
+        return;
+    }
+
+    uint8_t similar_peers = 0;
+    if (ENETH_ADDRESS_IS_V4_MAPPED(&event->peer->address)) {
+        FOR_PEERS(server->host, peer)
+        {
+            if (peer->state == ENET_PEER_STATE_CONNECTED &&
+                peer->address.host.v6[6] == event->peer->address.host.v6[6] &&
+                peer->address.host.v6[7] == event->peer->address.host.v6[7])
+            {
+                similar_peers++;
+            }
+        }
+
+    } else {
+        FOR_PEERS(server->host, peer)
+        {
+            if (peer->state == ENET_PEER_STATE_CONNECTED &&
+                memcmp(peer->address.host.v6,
+                       event->peer->address.host.v6,
+                       4 * sizeof(uint16_t)) == 0)
+            {
+                similar_peers++;
+            }
+        }
+    }
+
+    if (similar_peers >= server->max_connections_per_range) {
+        char ip_address[48];
+        enet_address_get_host_ip(&event->peer->address, ip_address, 48);
+
+        LOG_WARNING(
+        "%s has %u active connections already, disconnecting", ip_address, similar_peers);
+
+        enet_peer_disconnect_now(event->peer, REASON_IP_LIMIT_EXCEEDED);
         return;
     }
 

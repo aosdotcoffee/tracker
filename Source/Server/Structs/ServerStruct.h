@@ -19,6 +19,7 @@ typedef struct server
     volatile sig_atomic_t running; // volatile keyword is required to have an access to this variable in any thread
 
     uint64_t idle_timeout;
+    uint8_t  max_connections_per_range;
 } server_t;
 
 #endif

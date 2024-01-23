@@ -2,6 +2,7 @@
 #include <Server/Server.h>
 #include <Util/Ensure.h>
 #include <Util/JSONHelpers.h>
+#include <Util/ENetHelpers.h>
 #include <json-c/json.h>
 #include <json-c/json_object.h>
 #include <json-c/json_types.h>
@@ -48,9 +49,7 @@ static enum MHD_Result _httpd_process_request(void*                  cls,
         address.port = 0;
 
         char identifier[54];
-        if (address.host.v6[0] == 0 && address.host.v6[1] == 0 &&
-            address.host.v6[2] == 0 && address.host.v6[3] == 0 &&
-            address.host.v6[4] == 0 && address.host.v6[5] == 0xFFFF)
+        if (ENETH_ADDRESS_IS_V4_MAPPED(&address))
         {
             /* if mapped v4 */
             uint32_t address_decimal = 0;

@@ -5,6 +5,11 @@ port = 32886
 # optional: path to your MaxMind database file
 mmdb_path = "GeoLite2-Country.mmdb"
 
+# optional: maximum number of connections allowed per range
+# for IPv4, a /32 (single address) is grouped into one range
+# for IPv6, a /64 (typical residential/server allocation) is grouped into one range
+# max_connections_per_range = 10
+
 # optional: max number of clients allowed
 # max_connections = 128
 

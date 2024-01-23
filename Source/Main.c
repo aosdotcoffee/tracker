@@ -39,17 +39,6 @@ int main(void)
     TOMLH_GET_TABLE(parsed, httpd_table, "httpd");
     TOMLH_GET_INT(httpd_table, args.httpd_port, "port", 0, 0);
 
-    const char* TRACKER_BANNER = "\n"
-                                 "                \x1b[1;32m▐           ▌        \n"
-                                 "                \x1b[1;32m▜▀ ▙▀▖▝▀▖▞▀▖▌▗▘▞▀▖▙▀▖\n"
-                                 "                \x1b[1;36m▐ ▖▌  ▞▀▌▌ ▖▛▚ ▛▀ ▌  \n"
-                                 "                \x1b[1;36m ▀ ▘  ▝▀▘▝▀ ▘ ▘▝▀▘▘  \n"
-                                 "\x1b[0;0m";
-
-    if (isatty(1)) {
-        puts(TRACKER_BANNER);
-    }
-
     signal(SIGTERM, _on_signal);
     signal(SIGINT, _on_signal);
 

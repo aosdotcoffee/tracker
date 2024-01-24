@@ -99,7 +99,10 @@ static enum MHD_Result _httpd_process_request(void*                  cls,
     }
     pthread_mutex_unlock(&server->lock);
 
-    const char*          page = json_object_to_json_string(json);
+    const char* page = (
+        json_object_to_json_string_ext(json, JSON_C_TO_STRING_NOSLASHESCAPE)
+    );
+
     struct MHD_Response* response;
     int                  ret;
 

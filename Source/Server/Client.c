@@ -55,6 +55,7 @@ void client_on_major_update_received(client_t* client, major_update_pkt* major_u
         return;
     }
 
+    client->timers.last_count_update   = time_now();
     client->gameserver.current_players = 0;
     client->gameserver.max_players     = major_update->max_players;
     client->gameserver.port            = major_update->port;
@@ -90,6 +91,7 @@ void client_on_count_update_received(client_t* client, count_update_pkt* count_u
         return;
     }
 
+    client->timers.last_count_update   = time_now();
     client->gameserver.current_players = count_update->current_players;
 
     LOG_CLIENT_INFO(client,

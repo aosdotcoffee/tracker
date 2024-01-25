@@ -93,7 +93,7 @@ static enum MHD_Result _httpd_process_request(void*                  cls,
         JSON_SET_INT(obj, "players_current", client->gameserver.current_players);
         JSON_SET_INT(obj, "players_max", client->gameserver.max_players);
         JSON_SET_INT(
-        obj, "last_updated", client->timers.last_count_update / NANO_IN_MILLI);
+        obj, "last_updated", client->timers.last_count_update / NANO_IN_SECOND);
 
         json_object_array_add(json, obj);
     }

@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.16 FATAL_ERROR)
 
 # Define project
-project(Tracker)
+project(Tracker LANGUAGES C)
 
 # Dependencies
 find_package(Threads REQUIRED)

@@ -43,7 +43,7 @@ void server_start(server_t* server, const server_args* args)
     ENSURE(enet_host_compress_with_range_coder(server->host) == 0,
            "Failed to enable range coder");
 
-    if (args->mmdb_path[0] != '\0') {
+    if (args->mmdb_path) {
         LOG_STATUS("Initializing MMDB");
         ENSURE(geoip_init(&server->mmdb, args->mmdb_path) == 0,
                "Failed to initialize MMDB");

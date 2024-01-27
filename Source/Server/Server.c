@@ -74,8 +74,12 @@ void server_start(server_t* server, const server_args* args)
     // Server is shutting down
     FOR_PEERS(server->host, peer)
     {
+        if (peer->data == NULL) {
+            continue;
+        }
+
         enet_peer_disconnect_now(peer, REASON_SERVER_SHUTTING_DOWN);
-        free((client_t*) peer->data);
+        client_destroy((client_t*) peer->data);
     }
 
     LOG_STATUS("Master stopped");
@@ -208,7 +212,6 @@ void server_handle_enet_disconnect(server_t* server, ENetEvent* event)
     }
 
     client_destroy(client);
-    event->peer->data = NULL;
 }
 
 void server_handle_enet_receive(server_t* server, ENetEvent* event)

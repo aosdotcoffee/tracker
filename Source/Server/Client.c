@@ -33,6 +33,7 @@ void client_init(client_t* client)
 
 void client_destroy(client_t* client)
 {
+    client->peer->data = NULL;
     free(client);
 }
 
@@ -45,6 +46,7 @@ void client_update(client_t* client)
         LOG_CLIENT_STATUS(client,
                           "idle for too long without announcing a server, disconnecting");
         enet_peer_disconnect_now(client->peer, REASON_IDLE_FOR_TOO_LONG);
+        client_destroy(client);
     }
 }
 

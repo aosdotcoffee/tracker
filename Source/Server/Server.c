@@ -133,7 +133,7 @@ void server_handle_enet_connect(server_t* server, ENetEvent* event)
         char ip_address[48];
         enet_address_get_host_ip(&event->peer->address, ip_address, 48);
 
-        LOG_WARNING("%s tried to connect with unsupported protocol %u",
+        LOG_WARNING("Disconnected %s: unsupported protocol %u",
                     ip_address,
                     event->data);
 
@@ -152,7 +152,6 @@ void server_handle_enet_connect(server_t* server, ENetEvent* event)
                 similar_peers++;
             }
         }
-
     } else {
         FOR_PEERS(server->host, peer)
         {
@@ -170,9 +169,7 @@ void server_handle_enet_connect(server_t* server, ENetEvent* event)
         char ip_address[48];
         enet_address_get_host_ip(&event->peer->address, ip_address, 48);
 
-        LOG_WARNING(
-        "%s has %u active connections already, disconnecting", ip_address, similar_peers);
-
+        LOG_WARNING("Disconnected %s: too many active connections", ip_address);
         enet_peer_disconnect_now(event->peer, REASON_IP_LIMIT_EXCEEDED);
         return;
     }

@@ -44,7 +44,7 @@ void client_update(client_t* client)
         time_since(client->timers.connection_established) >= client->server->idle_timeout)
     {
         LOG_CLIENT_STATUS(client,
-                          "idle for too long without announcing a server, disconnecting");
+                          "Disconnected: idle for too long without announcing a server");
         enet_peer_disconnect_now(client->peer, REASON_IDLE_FOR_TOO_LONG);
         client_destroy(client);
     }

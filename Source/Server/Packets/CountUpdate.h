@@ -1,4 +1,5 @@
 #pragma once
+#include <Server/Structs/ClientStruct.h>
 #include <stdint.h>
 #include <Util/DataStream.h>
 

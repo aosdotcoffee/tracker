@@ -1,6 +1,4 @@
-#ifndef TOMLHELPERS_H
-#define TOMLHELPERS_H
-
+#pragma once
 #include <Util/Log.h>
 #include <tomlc99/toml.h>
 
@@ -103,5 +101,3 @@ _tomlh_done_reading:
 
 #define TOMLH_GET_BOOL(table, out, name, fallback, optional) \
     TOMLH_GET_VAR(bool, table, out, name, (int) _tomlh_datum.u.b, fallback, optional);
-
-#endif

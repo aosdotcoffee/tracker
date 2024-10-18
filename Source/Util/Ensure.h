@@ -1,6 +1,4 @@
-#ifndef TRY_H
-#define TRY_H
-
+#pragma once
 #include <Util/Log.h>
 
 #define ENSURE(condition, message)                      \
@@ -11,5 +9,3 @@
             exit(EXIT_FAILURE);                         \
         }                                               \
     }
-
-#endif

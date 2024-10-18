@@ -1,5 +1,4 @@
-#ifndef STARTSTRUCT_H
-#define STARTSTRUCT_H
+#pragma once
 
 typedef struct server_args
 {
@@ -18,5 +17,3 @@ typedef struct server_args
     // httpd
     uint16_t httpd_port;
 } server_args;
-
-#endif

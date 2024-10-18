@@ -1,7 +1,5 @@
-#ifndef LOG_H
-#define LOG_H
-
-#include <stdio.h> // required by LOG_ERROR
+#pragma once
+#include <stdio.h> // IWYU pragma: keep
 
 void log_print_with_time(const char* format, ...);
 
@@ -76,5 +74,3 @@ void log_print_with_time(const char* format, ...);
     client,                                                                         \
     "\x1b[1;30m[\x1b[1;31mERROR \x1b[1;30m] \x1b[0;37m%s \x1b[0;33m| " __VA_ARGS__, \
     "\x1B[0;37m\n")
-
-#endif // LOG_H

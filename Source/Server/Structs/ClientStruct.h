@@ -1,6 +1,4 @@
-#ifndef CLIENTSTRUCT_H
-#define CLIENTSTRUCT_H
-
+#pragma once
 #include <Server/Structs/GameserverStruct.h>
 #include <Server/Structs/TimerStruct.h>
 #include <Util/Enums.h>
@@ -19,5 +17,3 @@ typedef struct client
     gameserver_t       gameserver;
     protocol_version_t version;
 } client_t;
-
-#endif

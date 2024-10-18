@@ -1,6 +1,4 @@
-#ifndef MAJORUPDATE_H
-#define MAJORUPDATE_H
-
+#pragma once
 #include <stdint.h>
 #include <Util/DataStream.h>
 #include <Util/Enums.h>
@@ -17,5 +15,3 @@ typedef struct major_update_packet
 
 major_update_pkt* parse_v31_major_update_packet(client_t* client, stream_t* stream);
 major_update_pkt* parse_v17_major_update_packet(client_t* client, stream_t* stream);
-
-#endif

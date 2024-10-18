@@ -1,6 +1,4 @@
-#ifndef SERVERSTRUCT_H
-#define SERVERSTRUCT_H
-
+#pragma once
 #include <Server/Structs/ClientStruct.h>
 #include <Server/Structs/TimerStruct.h>
 #include <enet6/enet.h>
@@ -21,5 +19,3 @@ typedef struct server
     uint64_t idle_timeout;
     uint8_t  max_connections_per_range;
 } server_t;
-
-#endif

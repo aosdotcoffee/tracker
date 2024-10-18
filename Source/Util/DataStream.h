@@ -1,7 +1,5 @@
 // Copyright CircumScriptor and DarkNeutrino 2021
-#ifndef DATASTREAM_H
-#define DATASTREAM_H
-
+#pragma once
 #include <Util/Enums.h>
 #include <stddef.h>
 #include <stdint.h>
@@ -38,5 +36,3 @@ void     stream_write_u16(stream_t* stream, uint16_t value);
 void     stream_write_u32(stream_t* stream, uint32_t value);
 void     stream_write_f(stream_t* stream, float value);
 void     stream_write_array(stream_t* stream, const void* array, uint32_t length);
-
-#endif /* stream_H */

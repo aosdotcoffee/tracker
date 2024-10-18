@@ -1,6 +1,4 @@
-#ifndef TIMERSTRUCT_H
-#define TIMERSTRUCT_H
-
+#pragma once
 #include <stdint.h>
 
 typedef struct timers
@@ -15,5 +13,3 @@ typedef struct global_timers
     uint64_t start;
     uint64_t last_tick;
 } global_timers_t;
-
-#endif

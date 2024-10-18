@@ -1,6 +1,5 @@
 // Copyright DarkNeutrino 2021
-#ifndef ENUMS_H
-#define ENUMS_H
+#pragma once
 
 #define NANO_IN_SECOND 1000000000
 #define NANO_IN_MILLI  1000000
@@ -29,5 +28,3 @@ typedef enum {
     REASON_IDLE_FOR_TOO_LONG      = 4,
     REASON_SERVER_SHUTTING_DOWN   = 5,
 } disconnected_reason_t;
-
-#endif /* ENUMS_H */

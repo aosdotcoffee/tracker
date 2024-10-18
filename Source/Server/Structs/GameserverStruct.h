@@ -1,6 +1,4 @@
-#ifndef GAMESERVERSTRUCT_H
-#define GAMESERVERSTRUCT_H
-
+#pragma once
 #include <Util/Enums.h>
 #include <stdint.h>
 
@@ -14,5 +12,3 @@ typedef struct gameserver
     char     map[MAX_MAP_LENGTH];
     char     country_code[3];
 } gameserver_t;
-
-#endif

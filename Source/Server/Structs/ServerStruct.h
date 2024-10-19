@@ -3,6 +3,7 @@
 #include <Server/Structs/TimerStruct.h>
 #include <enet6/enet.h>
 #include <maxminddb.h>
+#include <pthread.h>
 #include <signal.h>
 
 typedef struct server

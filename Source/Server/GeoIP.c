@@ -23,8 +23,8 @@ int geoip_init(MMDB_s* mmdb, const char* filename)
 int geoip_get_alpha2_country(MMDB_s* mmdb, char* out, const char* ip_address)
 {
     MMDB_lookup_result_s mmdb_res;
-    MMDB_entry_data_s    entry_data;
-    int                  gai_error, mmdb_error;
+    MMDB_entry_data_s entry_data;
+    int gai_error, mmdb_error;
 
     mmdb_res = MMDB_lookup_string(mmdb, ip_address, &gai_error, &mmdb_error);
 
@@ -37,8 +37,9 @@ int geoip_get_alpha2_country(MMDB_s* mmdb, char* out, const char* ip_address)
     if (!mmdb_res.found_entry)
         return -1;
 
-    mmdb_error =
-    MMDB_get_value(&mmdb_res.entry, &entry_data, "registered_country", "iso_code", NULL);
+    mmdb_error = MMDB_get_value(
+        &mmdb_res.entry, &entry_data, "registered_country", "iso_code", NULL
+    );
 
     if (mmdb_error != MMDB_SUCCESS)
         return -1;

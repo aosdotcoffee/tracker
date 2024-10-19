@@ -1,0 +1,55 @@
+---
+Checks: >
+  *,
+  -bugprone-*,
+  -readability-identifier-length,
+  -llvm-header-guard,
+  -altera-struct-pack-align,
+  -llvmlibc-restrict-system-libc-headers,
+  -clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,
+  -altera-unroll-loops,
+  -cppcoreguidelines-avoid-non-const-global-variables,
+  -cert-dcl37-c,
+  -cert-dcl51-cpp,
+  -llvmlibc-implementation-in-namespace,
+  -llvm-namespace-comment,
+  -llvmlibc-callee-namespace,
+  -fuchsia-default-arguments-calls,
+  -google-readability-namespace-comments,
+  -modernize-use-trailing-return-type,
+  -llvmlibc-inline-function-decl,
+  -cppcoreguidelines-non-private-member-variables-in-classes,
+  -misc-non-private-member-variables-in-classes,
+  -altera-id-dependent-backward-branch,
+  -fuchsia-default-arguments-declarations,
+  -cppcoreguidelines-*,
+  -hicpp-*,
+  -modernize-use-using,
+  -readability-magic-numbers,
+  -readability-implicit-bool-conversion,
+  -android-cloexec-open,
+FormatStyle: 'file'
+CheckOptions:
+  - key: readability-identifier-naming.ClassCase
+    value: CamelCase
+  - key: readability-identifier-naming.EnumCase
+    value: lower_case
+  - key: readability-identifier-naming.TypedefCase
+    value: lower_case
+  - key: readability-identifier-naming.StructCase
+    value: aNy_CasE
+  - key: readability-identifier-naming.UnionCase
+    value: lower_case
+  - key: readability-identifier-naming.FunctionCase
+    value: lower_case
+  - key: readability-identifier-naming.LocalVariableCase
+    value: lower_case
+  - key: readability-identifier-naming.StaticVariableCase
+    value: lower_case
+  - key: readability-identifier-naming.FunctionIgnoredRegexp
+    value: '^_.*$'
+  - key: readability-identifier-naming.GlobalVariablePrefix
+    value: 'g_'
+  - key: readability-function-cognitive-complexity.IgnoreMacros
+    value: true
+...

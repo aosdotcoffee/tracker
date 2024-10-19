@@ -25,28 +25,34 @@ void server_start(server_t* server, const server_args* args)
     ENSURE(enet_initialize() == 0, "Failed to initialize ENet");
     atexit(enet_deinitialize);
 
-    ENSURE(pthread_mutex_init(&server->lock, NULL) == 0,
-           "Server mutex failed to initialize");
+    ENSURE(
+        pthread_mutex_init(&server->lock, NULL) == 0, "Server mutex failed to initialize"
+    );
 
     ENetAddress address;
     enet_address_build_any(&address, ENET_ADDRESS_TYPE_IPV6);
     address.port = args->master_port;
 
     LOG_STATUS("Creating master at port %d", args->master_port);
-    server->host = enet_host_create(ENET_ADDRESS_TYPE_IPV6,
-                                    &address,
-                                    args->max_connections,
-                                    args->channels,
-                                    args->max_bandwidth_in,
-                                    args->max_bandwidth_out);
+    server->host = enet_host_create(
+        ENET_ADDRESS_TYPE_IPV6,
+        &address,
+        args->max_connections,
+        args->channels,
+        args->max_bandwidth_in,
+        args->max_bandwidth_out
+    );
     ENSURE(server->host != NULL, "Failed to create ENet host");
-    ENSURE(enet_host_compress_with_range_coder(server->host) == 0,
-           "Failed to enable range coder");
+    ENSURE(
+        enet_host_compress_with_range_coder(server->host) == 0,
+        "Failed to enable range coder"
+    );
 
     if (args->mmdb_path) {
         LOG_STATUS("Initializing MMDB");
-        ENSURE(geoip_init(&server->mmdb, args->mmdb_path) == 0,
-               "Failed to initialize MMDB");
+        ENSURE(
+            geoip_init(&server->mmdb, args->mmdb_path) == 0, "Failed to initialize MMDB"
+        );
         server->has_mmdb = 1;
     } else {
         LOG_WARNING("No MMDB path specified, GeoIP will be disabled");
@@ -55,10 +61,10 @@ void server_start(server_t* server, const server_args* args)
 
     LOG_STATUS("Initializing server");
 
-    server->idle_timeout              = args->idle_timeout * NANO_IN_MILLI;
+    server->idle_timeout = args->idle_timeout * NANO_IN_MILLI;
     server->max_connections_per_range = args->max_connections_per_range;
-    server->clients                   = NULL;
-    server->running                   = 1;
+    server->clients = NULL;
+    server->running = 1;
 
     httpd_start(server, args->httpd_port);
     LOG_STATUS("Master started");
@@ -127,15 +133,13 @@ void server_update_clients(server_t* server)
 void server_handle_enet_connect(server_t* server, ENetEvent* event)
 {
     /* check if the client is connecting with the right version */
-    if (event->data != VERSION_17 &&
-        event->data != VERSION_31 &&
-        event->data != VERSION_23) {
+    if (event->data != VERSION_17 && event->data != VERSION_31 &&
+        event->data != VERSION_23)
+    {
         char ip_address[48];
         enet_address_get_host_ip(&event->peer->address, ip_address, 48);
 
-        LOG_WARNING("Disconnected %s: unsupported protocol %u",
-                    ip_address,
-                    event->data);
+        LOG_WARNING("Disconnected %s: unsupported protocol %u", ip_address, event->data);
 
         enet_peer_disconnect_now(event->peer, REASON_WRONG_PROTOCOL_VERSION);
         return;
@@ -156,9 +160,11 @@ void server_handle_enet_connect(server_t* server, ENetEvent* event)
         FOR_PEERS(server->host, peer)
         {
             if (peer->state == ENET_PEER_STATE_CONNECTED &&
-                memcmp(peer->address.host.v6,
-                       event->peer->address.host.v6,
-                       4 * sizeof(uint16_t)) == 0)
+                memcmp(
+                    peer->address.host.v6,
+                    event->peer->address.host.v6,
+                    4 * sizeof(uint16_t)
+                ) == 0)
             {
                 similar_peers++;
             }
@@ -177,17 +183,20 @@ void server_handle_enet_connect(server_t* server, ENetEvent* event)
     ALLOC_STRUCT(client, client_t);
 
     client->version = event->data;
-    client->server  = server;
-    client->peer    = event->peer;
+    client->server = server;
+    client->peer = event->peer;
 
     /* in future events, we can use ((client_t*) event->peer->data) to access the client
      * struct easily */
     event->peer->data = client;
 
     client_init(client);
-    LOG_CLIENT_STATUS(client, "Connected [Country: %s] [Version: %u]",
-                      client->gameserver.country_code,
-                      client->version);
+    LOG_CLIENT_STATUS(
+        client,
+        "Connected [Country: %s] [Version: %u]",
+        client->gameserver.country_code,
+        client->version
+    );
 }
 
 void server_handle_enet_disconnect(server_t* server, ENetEvent* event)
@@ -231,20 +240,21 @@ void server_handle_enet_receive(server_t* server, ENetEvent* event)
     } else {
         major_update_pkt* major_update;
 
-        switch(client->version) {
-        case VERSION_31:
-            major_update = parse_v31_major_update_packet(client, &stream);
-            break;
+        switch (client->version) {
+            case VERSION_31:
+                major_update = parse_v31_major_update_packet(client, &stream);
+                break;
 
-        case VERSION_17:
-        case VERSION_23:
-            major_update = parse_v17_major_update_packet(client, &stream);
-            break;
+            case VERSION_17:
+            case VERSION_23:
+                major_update = parse_v17_major_update_packet(client, &stream);
+                break;
 
-        default:
-            LOG_CLIENT_ERROR(client,
-                             "Received MajorUpdate on a version that doesn't support it");
-            goto end;
+            default:
+                LOG_CLIENT_ERROR(
+                    client, "Received MajorUpdate on a version that doesn't support it"
+                );
+                goto end;
         }
 
         client_on_major_update_received(client, major_update);

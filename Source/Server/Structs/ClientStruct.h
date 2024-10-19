@@ -9,11 +9,11 @@ typedef struct server server_t;
 
 typedef struct client
 {
-    ENetPeer*          peer;
-    server_t*          server;
-    timers_t           timers;
-    state_t            state;
-    uint8_t            id;
-    gameserver_t       gameserver;
+    ENetPeer* peer;
+    server_t* server;
+    timers_t timers;
+    state_t state;
+    uint8_t id;
+    gameserver_t gameserver;
     protocol_version_t version;
 } client_t;

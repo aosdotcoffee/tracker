@@ -16,7 +16,7 @@ major_update_pkt* parse_v31_major_update_packet(client_t* client, stream_t* stre
     }
 
     packet->max_players = stream_read_u8(stream);
-    packet->port        = stream_read_u16(stream);
+    packet->port = stream_read_u16(stream);
 
     size_t name_size = stream_read_string(stream, packet->name, 32);
     /* at least give me the server name! */
@@ -45,7 +45,7 @@ major_update_pkt* parse_v17_major_update_packet(client_t* client, stream_t* stre
     }
 
     packet->max_players = stream_read_u8(stream);
-    packet->port        = 32887; // this version of the protocol doesn't send the port!
+    packet->port = 32887; // this version of the protocol doesn't send the port!
 
     stream_read_string(stream, packet->name, 32);
 

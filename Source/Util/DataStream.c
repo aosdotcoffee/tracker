@@ -2,16 +2,16 @@
 #include <Util/Alloc.h>
 #include <Util/DataStream.h>
 #include <Util/Log.h>
+#include <stddef.h>
 #include <stdint.h>
 #include <stdlib.h>
-#include <stddef.h>
 #include <string.h>
 
 void stream_create(stream_t* stream, uint32_t length)
 {
-    stream->data   = xmalloc(length);
+    stream->data = xmalloc(length);
     stream->length = length;
-    stream->pos    = 0;
+    stream->pos = 0;
 }
 
 void stream_free(stream_t* stream)
@@ -62,7 +62,7 @@ float stream_read_f(stream_t* stream)
 {
     union
     {
-        float    f;
+        float f;
         uint32_t v;
     } u;
     u.v = stream_read_u32(stream);
@@ -127,7 +127,7 @@ void stream_write_f(stream_t* stream, float value)
 {
     union
     {
-        float    f;
+        float f;
         uint32_t v;
     } u;
     u.f = value;

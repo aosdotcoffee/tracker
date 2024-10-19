@@ -1,7 +1,7 @@
 #pragma once
-#include <Server/Structs/ServerStruct.h>
-#include <Server/Packets/MajorUpdate.h>
 #include <Server/Packets/CountUpdate.h>
+#include <Server/Packets/MajorUpdate.h>
+#include <Server/Structs/ServerStruct.h>
 #include <Util/DataStream.h>
 
 void client_init(client_t* client);

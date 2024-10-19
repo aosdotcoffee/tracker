@@ -1,8 +1,8 @@
 #include <Server/Httpd.h>
 #include <Server/Server.h>
+#include <Util/ENetHelpers.h>
 #include <Util/Ensure.h>
 #include <Util/JSONHelpers.h>
-#include <Util/ENetHelpers.h>
 #include <json-c/json.h>
 #include <json-c/json_object.h>
 #include <json-c/json_types.h>
@@ -13,14 +13,16 @@
 #include <sys/socket.h>
 #include <sys/types.h>
 
-static enum MHD_Result _httpd_process_request(void*                  cls,
-                                              struct MHD_Connection* connection,
-                                              const char*            url,
-                                              const char*            method,
-                                              const char*            version,
-                                              const char*            upload_data,
-                                              size_t*                upload_data_size,
-                                              void**                 con_cls)
+static enum MHD_Result _httpd_process_request(
+    void* cls,
+    struct MHD_Connection* connection,
+    const char* url,
+    const char* method,
+    const char* version,
+    const char* upload_data,
+    size_t* upload_data_size,
+    void** con_cls
+)
 {
     (void) url;
     (void) method;
@@ -29,8 +31,8 @@ static enum MHD_Result _httpd_process_request(void*                  cls,
     (void) upload_data_size;
     (void) con_cls;
 
-    server_t*           server = (server_t*) cls;
-    struct json_object* json   = json_object_new_array();
+    server_t* server = (server_t*) cls;
+    struct json_object* json = json_object_new_array();
 
     pthread_mutex_lock(&server->lock);
     /* iterate through all clients that have a server */
@@ -49,8 +51,7 @@ static enum MHD_Result _httpd_process_request(void*                  cls,
         address.port = 0;
 
         char identifier[54];
-        if (ENETH_ADDRESS_IS_V4_MAPPED(&address))
-        {
+        if (ENETH_ADDRESS_IS_V4_MAPPED(&address)) {
             /* if mapped v4 */
             uint32_t address_decimal = 0;
 
@@ -61,27 +62,39 @@ static enum MHD_Result _httpd_process_request(void*                  cls,
             address_decimal |= ((uint32_t) peer->address.host.v6[7] & 0x00FF) << 24;
 
             snprintf(
-            identifier, 31, "aos://%u:%u", address_decimal, client->gameserver.port);
+                identifier, 31, "aos://%u:%u", address_decimal, client->gameserver.port
+            );
         } else {
             /* if plain v6 */
             char ipv6_address[39];
 
-            ENSURE(enet_address_get_host_ip(&address, ipv6_address, 48) == 0,
-                   "Failed to get host IPv6 address");
+            ENSURE(
+                enet_address_get_host_ip(&address, ipv6_address, 48) == 0,
+                "Failed to get host IPv6 address"
+            );
 
             snprintf(
-            identifier, 53, "aos://[%s]:%u", ipv6_address, client->gameserver.port);
+                identifier, 53, "aos://[%s]:%u", ipv6_address, client->gameserver.port
+            );
         }
 
         struct json_object* obj = json_object_new_object();
         JSON_SET_STRING(obj, "name", client->gameserver.name);
 
         const char* version;
-        switch(client->version) {
-            case VERSION_17: version = "0.54"; break;
-            case VERSION_23: version = "0.60"; break;
-            case VERSION_31: version = "0.75"; break;
-            default:         version = "0.00"; break;
+        switch (client->version) {
+            case VERSION_17:
+                version = "0.54";
+                break;
+            case VERSION_23:
+                version = "0.60";
+                break;
+            case VERSION_31:
+                version = "0.75";
+                break;
+            default:
+                version = "0.00";
+                break;
         }
 
         JSON_SET_STRING(obj, "game_version", version);
@@ -93,23 +106,24 @@ static enum MHD_Result _httpd_process_request(void*                  cls,
         JSON_SET_INT(obj, "players_current", client->gameserver.current_players);
         JSON_SET_INT(obj, "players_max", client->gameserver.max_players);
         JSON_SET_INT(
-        obj, "last_updated", client->timers.last_count_update / NANO_IN_SECOND);
+            obj, "last_updated", client->timers.last_count_update / NANO_IN_SECOND
+        );
 
         json_object_array_add(json, obj);
     }
     pthread_mutex_unlock(&server->lock);
 
-    const char* page = (
-        json_object_to_json_string_ext(json, JSON_C_TO_STRING_NOSLASHESCAPE)
-    );
+    const char* page =
+        (json_object_to_json_string_ext(json, JSON_C_TO_STRING_NOSLASHESCAPE));
 
     struct MHD_Response* response;
-    int                  ret;
+    int ret;
 
     /* MHD_RESPMEM_MUST_COPY: tell MHD to make its own copy of page, otherwise it would
      * free() it before we call json_object_put() */
-    response =
-    MHD_create_response_from_buffer(strlen(page), (void*) page, MHD_RESPMEM_MUST_COPY);
+    response = MHD_create_response_from_buffer(
+        strlen(page), (void*) page, MHD_RESPMEM_MUST_COPY
+    );
 
     ret = MHD_queue_response(connection, MHD_HTTP_OK, response);
     MHD_destroy_response(response);
@@ -125,7 +139,8 @@ void httpd_start(server_t* server, uint16_t port)
     int flags = MHD_USE_INTERNAL_POLLING_THREAD | MHD_USE_DUAL_STACK;
 
     server->httpd = MHD_start_daemon(
-    flags, port, NULL, NULL, &_httpd_process_request, (void*) server, MHD_OPTION_END);
+        flags, port, NULL, NULL, &_httpd_process_request, (void*) server, MHD_OPTION_END
+    );
 
     ENSURE(server->httpd != NULL, "Failed to start libmicrohttpd daemon");
 

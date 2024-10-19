@@ -12,8 +12,8 @@ typedef struct server_args
     // master
     uint16_t master_port;
     uint64_t idle_timeout;
-    char*    mmdb_path;
-    uint8_t  max_connections_per_range;
+    char* mmdb_path;
+    uint8_t max_connections_per_range;
 
     // httpd
     uint16_t httpd_port;

@@ -1,5 +1,5 @@
-#include <time.h>
 #include <stdint.h>
+#include <time.h>
 
 uint64_t time_now(void)
 {

@@ -24,11 +24,11 @@ void client_init(client_t* client)
 
         enet_address_get_host_ip(&address, ip_address, 48);
 
-        int result = geoip_get_alpha2_country(
+        bool result = geoip_get_alpha2_country(
             &client->server->mmdb, client->gameserver.country_code, ip_address
         );
 
-        if (result != 0) {
+        if (!result) {
             LOG_CLIENT_WARNING(client, "Could not look up GeoIP");
             client->gameserver.country_code[0] = '\0';
         }

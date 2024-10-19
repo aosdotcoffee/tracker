@@ -18,9 +18,10 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 add_compile_options(
     -Wall
     -Wextra
+    -Wpedantic
     -Werror
     -Wno-gnu-auto-type
-    -Wpedantic
+    -Wno-gnu-zero-variadic-macro-arguments
     -std=c2x
     -fstack-protector-strong
 )

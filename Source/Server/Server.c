@@ -6,11 +6,11 @@
 #include <Server/Server.h>
 #include <Server/Structs/ServerStruct.h>
 #include <Server/Structs/StartStruct.h>
-#include <Util/Alloc.h>
 #include <Util/ENetHelpers.h>
 #include <Util/Ensure.h>
 #include <Util/Log.h>
 #include <Util/Nanos.h>
+#include <Util/Mem.h>
 #include <enet6/enet.h>
 #include <pthread.h>
 #include <stdio.h>
@@ -180,7 +180,7 @@ void server_handle_enet_connect(server_t* server, ENetEvent* event)
         return;
     }
 
-    ALLOC_STRUCT(client, client_t);
+    auto client = make(client_t);
 
     client->version = event->data;
     client->server = server;

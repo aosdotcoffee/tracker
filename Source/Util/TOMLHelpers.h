@@ -70,30 +70,30 @@
         }                                                                     \
     }
 
-#define TOMLH_GET_STRING_ARRAY_AS_DL(table, out, size_out, name, optional)        \
-    {                                                                             \
-        toml_array_t* _tomlh_array = toml_array_in(table, name);                  \
-        if (!_tomlh_array) {                                                      \
-            if (optional) {                                                       \
-                size_out = 0;                                                     \
-                goto _tomlh_done_reading;                                         \
-            } else {                                                              \
-                LOG_ERROR("Failed to read string array '%s' from TOML", name);    \
-                exit(EXIT_FAILURE);                                               \
-            }                                                                     \
-        }                                                                         \
-        size_out = toml_array_nelem(_tomlh_array);                                \
-        for (size_t i = 0; i < size_out; i++) {                                   \
-            toml_datum_t _tomlh_array_elm = toml_string_at(_tomlh_array, i);      \
-            if (!_tomlh_array_elm.ok) {                                           \
-                LOG_ERROR("Failed to read " #name "[%zu] from TOML", i);          \
-                exit(EXIT_FAILURE);                                               \
-            }                                                                     \
-            string_node_t* _tomlh_string = spadesx_malloc(sizeof(string_node_t)); \
-            _tomlh_string->string = (char*) _tomlh_array_elm.u.s;                 \
-            DL_APPEND(out, _tomlh_string);                                        \
-        }                                                                         \
-    }                                                                             \
+#define TOMLH_GET_STRING_ARRAY_AS_DL(table, out, size_out, name, optional)     \
+    {                                                                          \
+        toml_array_t* _tomlh_array = toml_array_in(table, name);               \
+        if (!_tomlh_array) {                                                   \
+            if (optional) {                                                    \
+                size_out = 0;                                                  \
+                goto _tomlh_done_reading;                                      \
+            } else {                                                           \
+                LOG_ERROR("Failed to read string array '%s' from TOML", name); \
+                exit(EXIT_FAILURE);                                            \
+            }                                                                  \
+        }                                                                      \
+        size_out = toml_array_nelem(_tomlh_array);                             \
+        for (size_t i = 0; i < size_out; i++) {                                \
+            toml_datum_t _tomlh_array_elm = toml_string_at(_tomlh_array, i);   \
+            if (!_tomlh_array_elm.ok) {                                        \
+                LOG_ERROR("Failed to read " #name "[%zu] from TOML", i);       \
+                exit(EXIT_FAILURE);                                            \
+            }                                                                  \
+            string_node_t* _tomlh_string = make(string_node_t);                \
+            _tomlh_string->string = (char*) _tomlh_array_elm.u.s;              \
+            DL_APPEND(out, _tomlh_string);                                     \
+        }                                                                      \
+    }                                                                          \
     _tomlh_done_reading:
 
 #define TOMLH_GET_STRING(table, out, name, fallback, optional) \

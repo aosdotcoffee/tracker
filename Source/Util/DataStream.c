@@ -1,7 +1,7 @@
 // Copyright CircumScriptor and DarkNeutrino 2021
-#include <Util/Alloc.h>
 #include <Util/DataStream.h>
 #include <Util/Log.h>
+#include <Util/Mem.h>
 #include <stddef.h>
 #include <stdint.h>
 #include <stdlib.h>
@@ -9,7 +9,7 @@
 
 void stream_create(stream_t* stream, uint32_t length)
 {
-    stream->data = xmalloc(length);
+    stream->data = make(uint8_t, length);
     stream->length = length;
     stream->pos = 0;
 }

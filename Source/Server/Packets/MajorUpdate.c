@@ -1,12 +1,12 @@
 #include <Server/Packets/MajorUpdate.h>
 #include <Server/Structs/ClientStruct.h>
-#include <Util/Alloc.h>
 #include <Util/DataStream.h>
 #include <Util/Log.h>
+#include <Util/Mem.h>
 
 major_update_pkt* parse_v31_major_update_packet(client_t* client, stream_t* stream)
 {
-    ALLOC_STRUCT(packet, major_update_pkt);
+    auto packet = make(major_update_pkt);
 
     /* max_players (1B) + port (2B) + name (at least null terminator, 1B) */
     if (stream_left(stream) < 4) {
@@ -35,7 +35,7 @@ major_update_pkt* parse_v31_major_update_packet(client_t* client, stream_t* stre
 
 major_update_pkt* parse_v17_major_update_packet(client_t* client, stream_t* stream)
 {
-    ALLOC_STRUCT(packet, major_update_pkt);
+    auto packet = make(major_update_pkt);
 
     /* max_players (1B) + name (at least null terminator, 1B) */
     if (stream_left(stream) < 3) {

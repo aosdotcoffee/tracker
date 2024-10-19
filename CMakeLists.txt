@@ -19,9 +19,14 @@ add_compile_options(
     -Wall
     -Wextra
     -Werror
+    -Wno-gnu-auto-type
     -Wpedantic
-    -std=gnu11
+    -std=c2x
     -fstack-protector-strong
+)
+
+add_compile_definitions(
+    -Dauto=__auto_type
 )
 
 add_executable(Tracker "")

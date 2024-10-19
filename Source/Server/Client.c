@@ -4,7 +4,7 @@
 #include <Util/DataStream.h>
 #include <Util/Enums.h>
 #include <Util/Log.h>
-#include <Util/Nanos.h>
+#include <Util/Time.h>
 #include <enet6/enet.h>
 #include <string.h>
 

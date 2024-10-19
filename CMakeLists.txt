@@ -22,6 +22,7 @@ add_compile_options(
     -Werror
     -Wno-gnu-auto-type
     -Wno-gnu-zero-variadic-macro-arguments
+    -Wno-fixed-enum-extension
     -std=c2x
     -fstack-protector-strong
 )

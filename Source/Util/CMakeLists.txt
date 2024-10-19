@@ -8,7 +8,6 @@ target_sources(Util
     PRIVATE
         DataStream.c
         Log.c
-        Nanos.c
     PUBLIC
         Enums.h
         ENetHelpers.h
@@ -16,8 +15,8 @@ target_sources(Util
         TOMLHelpers.h
         DataStream.h
         Log.h
-        Nanos.h
         Mem.h
+        Time.h
         Ensure.h
 )
 

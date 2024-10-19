@@ -9,8 +9,8 @@
 #include <Util/ENetHelpers.h>
 #include <Util/Ensure.h>
 #include <Util/Log.h>
-#include <Util/Nanos.h>
 #include <Util/Mem.h>
+#include <Util/Time.h>
 #include <enet6/enet.h>
 #include <pthread.h>
 #include <stdio.h>

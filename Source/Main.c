@@ -44,7 +44,10 @@ int main(void)
     signal(SIGTERM, _on_signal);
     signal(SIGINT, _on_signal);
 
-    server_start(&g_server, &args);
+    /* server failed to start */
+    if (!server_start(&g_server, &args)) {
+        return 1;
+    }
 
     // server stopped
     free(args.mmdb_path);

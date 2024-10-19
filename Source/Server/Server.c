@@ -14,6 +14,7 @@
 #include <Util/Log.h>
 #include <Util/Mem.h>
 #include <Util/Time.h>
+#include <errno.h>
 #include <enet6/enet.h>
 #include <pthread.h>
 #include <stdint.h>
@@ -21,8 +22,12 @@
 #include <stdlib.h>
 #include <string.h>
 
-void server_start(server_t* server, const server_args* args)
+bool server_start(server_t* server, const server_args* args)
 {
+    #define _FAIL(error) \
+        LOG_ERROR(error); \
+        return false;
+
     server->global_timers.start = time_now();
 
     /* Initialize ENet */
@@ -47,7 +52,11 @@ void server_start(server_t* server, const server_args* args)
         args->max_bandwidth_in,
         args->max_bandwidth_out
     );
-    ENSURE(server->host != NULL, "Failed to create ENet host");
+
+    if (server->host == NULL) {
+        _FAIL("Cannot create ENet host. Is the port already in use?");
+    }
+
     ENSURE(
         enet_host_compress_with_range_coder(server->host) == 0,
         "Failed to enable range coder"
@@ -55,9 +64,18 @@ void server_start(server_t* server, const server_args* args)
 
     if (args->mmdb_path) {
         LOG_STATUS("Initializing MMDB");
-        ENSURE(
-            geoip_init(&server->mmdb, args->mmdb_path) == 0, "Failed to initialize MMDB"
-        );
+        int mmdb_status = geoip_init(&server->mmdb, args->mmdb_path);
+
+        if (mmdb_status != MMDB_SUCCESS) {
+            LOG_ERROR("Cannot open MMDB file %s - %s", args->mmdb_path, MMDB_strerror(mmdb_status));
+
+            if (mmdb_status == MMDB_IO_ERROR) {
+                LOG_ERROR("IO Error: %s", strerror(errno));
+            }
+
+            return false;
+        }
+
         server->has_mmdb = 1;
     } else {
         LOG_WARNING("No MMDB path specified, GeoIP will be disabled");
@@ -97,6 +115,8 @@ void server_start(server_t* server, const server_args* args)
     httpd_stop(server);
     enet_host_destroy(server->host);
     pthread_mutex_destroy(&server->lock);
+
+    return true;
 }
 
 void server_receive_events(server_t* server)

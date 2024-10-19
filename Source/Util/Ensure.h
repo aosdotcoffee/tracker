@@ -6,6 +6,6 @@
         if ((condition) == 0) {                         \
             LOG_ERROR("ASSERTION FAILED: " #condition); \
             LOG_ERROR("%s", message);                   \
-            exit(EXIT_FAILURE);                         \
+            abort();                                    \
         }                                               \
     }

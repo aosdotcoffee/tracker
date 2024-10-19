@@ -2,6 +2,10 @@ cmake_minimum_required(VERSION 3.16 FATAL_ERROR)
 
 # Define project
 project(Tracker LANGUAGES C)
+option(ASAN "Enable AddressSanitizer" OFF)
+option(TSAN "Enable ThreadSanitizer" OFF)
+option(UBSAN "Enable UndefinedBehaviorSanitizer" OFF)
+option(HARDENED "Enable various program hardening options" OFF)
 
 # Dependencies
 find_package(Threads REQUIRED)

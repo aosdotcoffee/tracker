@@ -1,11 +1,14 @@
 #include <Server/Client.h>
 #include <Server/GeoIP.h>
+#include <Server/Packets/CountUpdate.h>
+#include <Server/Packets/MajorUpdate.h>
+#include <Server/Structs/ClientStruct.h>
 #include <Server/Structs/ServerStruct.h>
-#include <Util/DataStream.h>
 #include <Util/Enums.h>
 #include <Util/Log.h>
 #include <Util/Time.h>
 #include <enet6/enet.h>
+#include <stdlib.h>
 #include <string.h>
 
 void client_init(client_t* client)

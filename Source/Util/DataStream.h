@@ -1,6 +1,5 @@
 // Copyright CircumScriptor and DarkNeutrino 2021
 #pragma once
-#include <Util/Enums.h>
 #include <stddef.h>
 #include <stdint.h>
 
@@ -23,7 +22,7 @@ typedef struct stream
 
 void stream_create(stream_t* stream, uint32_t length);
 void stream_free(stream_t* stream);
-uint32_t stream_left(stream_t* stream);
+uint32_t stream_left(const stream_t* stream);
 void stream_skip(stream_t* stream, uint32_t skip);
 uint8_t stream_read_u8(stream_t* stream);
 uint16_t stream_read_u16(stream_t* stream);

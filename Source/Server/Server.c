@@ -4,16 +4,21 @@
 #include <Server/Packets/CountUpdate.h>
 #include <Server/Packets/MajorUpdate.h>
 #include <Server/Server.h>
+#include <Server/Structs/ClientStruct.h>
 #include <Server/Structs/ServerStruct.h>
 #include <Server/Structs/StartStruct.h>
+#include <Util/DataStream.h>
 #include <Util/ENetHelpers.h>
 #include <Util/Ensure.h>
+#include <Util/Enums.h>
 #include <Util/Log.h>
 #include <Util/Mem.h>
 #include <Util/Time.h>
 #include <enet6/enet.h>
 #include <pthread.h>
+#include <stdint.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 void server_start(server_t* server, const server_args* args)
@@ -74,7 +79,7 @@ void server_start(server_t* server, const server_args* args)
         server_receive_events(server);
         server_update_clients(server);
         pthread_mutex_unlock(&server->lock);
-        sleep(0);
+        time_sleep_millisec(0);
     }
 
     // Server is shutting down

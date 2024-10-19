@@ -4,14 +4,16 @@
 #include <stdlib.h>
 #include <string.h> // IWYU pragma: keep
 
-[[nodiscard]] inline static void* xmalloc_sub(size_t size)
+[[nodiscard]]
+inline static void* xmalloc_sub(size_t size)
 {
     void* allocated = malloc(size);
     assert(allocated != nullptr);
     return allocated;
 }
 
-[[nodiscard]] inline static void* xcalloc_sub(size_t count, size_t cell_size)
+[[nodiscard]]
+inline static void* xcalloc_sub(size_t count, size_t cell_size)
 {
     void* allocated = calloc(count, cell_size);
     assert(allocated != nullptr);

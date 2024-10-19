@@ -3,6 +3,7 @@
 #include <Server/Structs/StartStruct.h>
 #include <Util/TOMLHelpers.h>
 #include <signal.h>
+#include <stdlib.h>
 #include <tomlc99/toml.h>
 
 static server_t g_server = {0};
@@ -11,9 +12,7 @@ static void _on_signal(int signal)
 {
     (void) signal;
 
-    fputs("\r", stdout);
-    LOG_STATUS("Shutting down");
-    server_stop(&g_server);
+    g_server.running = 0;
 }
 
 int main(void)

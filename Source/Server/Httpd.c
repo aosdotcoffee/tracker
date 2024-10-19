@@ -1,24 +1,26 @@
 #include <Server/Httpd.h>
 #include <Server/Server.h>
+#include <Server/Structs/ClientStruct.h>
 #include <Util/ENetHelpers.h>
 #include <Util/Ensure.h>
+#include <Util/Enums.h>
 #include <Util/JSONHelpers.h>
-#include <json-c/json.h>
+#include <Util/Log.h>
+#include <enet6/enet.h>
 #include <json-c/json_object.h>
 #include <json-c/json_types.h>
-#include <json-c/json_util.h>
 #include <microhttpd.h>
+#include <stddef.h>
+#include <stdint.h>
+#include <stdio.h>
 #include <string.h>
-#include <sys/select.h>
-#include <sys/socket.h>
-#include <sys/types.h>
 
 static enum MHD_Result _httpd_process_request(
     void* cls,
     struct MHD_Connection* connection,
     const char* url,
     const char* method,
-    const char* version,
+    const char* http_version,
     const char* upload_data,
     size_t* upload_data_size,
     void** con_cls
@@ -26,7 +28,7 @@ static enum MHD_Result _httpd_process_request(
 {
     (void) url;
     (void) method;
-    (void) version;
+    (void) http_version;
     (void) upload_data;
     (void) upload_data_size;
     (void) con_cls;
@@ -78,8 +80,8 @@ static enum MHD_Result _httpd_process_request(
             );
         }
 
-        struct json_object* obj = json_object_new_object();
-        JSON_SET_STRING(obj, "name", client->gameserver.name);
+        struct json_object* item = json_object_new_object();
+        JSON_SET_STRING(item, "name", client->gameserver.name);
 
         const char* version;
         switch (client->version) {
@@ -97,19 +99,19 @@ static enum MHD_Result _httpd_process_request(
                 break;
         }
 
-        JSON_SET_STRING(obj, "game_version", version);
-        JSON_SET_STRING(obj, "identifier", identifier);
-        JSON_SET_STRING(obj, "map", client->gameserver.map);
-        JSON_SET_STRING(obj, "game_mode", client->gameserver.gamemode);
-        JSON_SET_STRING(obj, "country", client->gameserver.country_code);
-        JSON_SET_INT(obj, "latency", 0);
-        JSON_SET_INT(obj, "players_current", client->gameserver.current_players);
-        JSON_SET_INT(obj, "players_max", client->gameserver.max_players);
+        JSON_SET_STRING(item, "game_version", version);
+        JSON_SET_STRING(item, "identifier", identifier);
+        JSON_SET_STRING(item, "map", client->gameserver.map);
+        JSON_SET_STRING(item, "game_mode", client->gameserver.gamemode);
+        JSON_SET_STRING(item, "country", client->gameserver.country_code);
+        JSON_SET_INT(item, "latency", 0);
+        JSON_SET_INT(item, "players_current", client->gameserver.current_players);
+        JSON_SET_INT(item, "players_max", client->gameserver.max_players);
         JSON_SET_INT(
-            obj, "last_updated", client->timers.last_count_update / NANO_IN_SECOND
+            item, "last_updated", client->timers.last_count_update / NANO_IN_SECOND
         );
 
-        json_object_array_add(json, obj);
+        json_object_array_add(json, item);
     }
     pthread_mutex_unlock(&server->lock);
 

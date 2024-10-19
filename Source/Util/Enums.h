@@ -1,13 +1,18 @@
 // Copyright DarkNeutrino 2021
 #pragma once
+#include <stdint.h>
 
-#define NANO_IN_SECOND 1000000000
-#define NANO_IN_MILLI 1000000
-#define NANO_IN_MINUTE 60000000000
+enum : uint64_t {
+    NANO_IN_SECOND = 1000000000,
+    NANO_IN_MILLI = 1000000,
+    NANO_IN_MINUTE = 60000000000,
+};
 
-#define MAX_SERVER_NAME_LENGTH 32
-#define MAX_GAMEMODE_LENGTH 8
-#define MAX_MAP_LENGTH 20
+enum : uint16_t {
+    MAX_SERVER_NAME_LENGTH = 32,
+    MAX_GAMEMODE_LENGTH = 8,
+    MAX_MAP_LENGTH = 20,
+};
 
 typedef enum {
     STATE_READY,

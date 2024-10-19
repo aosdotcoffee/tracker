@@ -13,14 +13,16 @@
 #endif
 #include <assert.h>
 
-#define TIME_NANOS_IN_MICRO 1000
-#define TIME_NANOS_IN_MILLI 1000000
-#define TIME_NANOS_IN_SECOND 1000000000
-#define TIME_NANOS_IN_MINUTE 60000000000
+enum : uint64_t {
+    TIME_NANOS_IN_MICRO = 1000,
+    TIME_NANOS_IN_MILLI = 1000000,
+    TIME_NANOS_IN_SECOND = 1000000000,
+    TIME_NANOS_IN_MINUTE = 60000000000,
+    TIME_MICROS_IN_MILLI = 1000,
+};
 
-#define TIME_MICROS_IN_MILLI 1000
-
-[[nodiscard]] static inline uint64_t time_now(void)
+[[nodiscard]]
+static inline uint64_t time_now(void)
 {
     struct timespec ts;
 
@@ -29,7 +31,8 @@
     return ((uint64_t) ts.tv_sec) * TIME_NANOS_IN_SECOND + ts.tv_nsec;
 }
 
-[[nodiscard]] static inline uint64_t time_since(uint64_t time)
+[[nodiscard]]
+static inline uint64_t time_since(uint64_t time)
 {
     return time_now() - time;
 }

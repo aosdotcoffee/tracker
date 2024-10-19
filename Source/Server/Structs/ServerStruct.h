@@ -5,6 +5,7 @@
 #include <maxminddb.h>
 #include <pthread.h>
 #include <signal.h>
+#include <stdint.h>
 
 typedef struct server
 {

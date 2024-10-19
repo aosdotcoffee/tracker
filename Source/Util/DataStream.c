@@ -1,6 +1,5 @@
 // Copyright CircumScriptor and DarkNeutrino 2021
 #include <Util/DataStream.h>
-#include <Util/Log.h>
 #include <Util/Mem.h>
 #include <stddef.h>
 #include <stdint.h>
@@ -21,7 +20,7 @@ void stream_free(stream_t* stream)
     }
 }
 
-uint32_t stream_left(stream_t* stream)
+uint32_t stream_left(const stream_t* stream)
 {
     return (stream->pos < stream->length) ? stream->length - stream->pos : 0;
 }

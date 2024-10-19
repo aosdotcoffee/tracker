@@ -140,6 +140,7 @@ StatementMacros:
 TabWidth: 4
 UseCRLF: false
 UseTab: Never
+BreakAfterAttributes: Always
 WhitespaceSensitiveMacros:
   - STRINGIZE
   - PP_STRINGIZE

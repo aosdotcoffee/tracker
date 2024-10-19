@@ -1,11 +1,11 @@
 #pragma once
 #include <Util/Log.h>
-#include <tomlc99/toml.h>
+#include <tomlc99/toml.h> // IWYU pragma: keep
 
 #define TOMLH_READ_FROM_FILE(toml, path)                                       \
     {                                                                          \
         char toml##_error[200];                                                \
-        FILE* toml##_fp = fopen(path, "r");                                    \
+        FILE* toml##_fp = fopen(path, "re");                                   \
         if (!toml##_fp) {                                                      \
             LOG_ERROR("Cannot find TOML file %s", path);                       \
             exit(EXIT_FAILURE);                                                \

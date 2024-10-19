@@ -5,7 +5,7 @@
 void log_print_with_time(const char* format, ...)
 {
     time_t t = time(NULL);
-    struct tm tm;
+    struct tm tm = {0};
 #ifdef WIN32
     localtime_s(&tm, &t);
 #else

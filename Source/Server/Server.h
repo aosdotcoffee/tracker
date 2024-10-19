@@ -7,7 +7,6 @@
 
 #include <Server/Structs/ServerStruct.h>
 #include <Server/Structs/StartStruct.h>
-#include <Util/Enums.h>
 #include <enet6/enet.h>
 #include <pthread.h>
 

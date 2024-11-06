@@ -1,18 +1,18 @@
+#include <assert.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <time.h>
 
 void log_print_with_time(const char* format, ...)
 {
-    time_t t = time(NULL);
-    struct tm tm = {0};
-#ifdef WIN32
-    localtime_s(&tm, &t);
-#else
-    localtime_r(&t, &tm);
-#endif
+    struct timespec ts;
+
+    [[maybe_unused]]
+    int ts_ret = timespec_get(&ts, TIME_UTC);
+    assert(ts_ret != 0);
+
     char s[64];
-    size_t ret = strftime(s, sizeof(s), "%d/%m %H:%M:%S", &tm);
+    size_t ret = strftime(s, sizeof(s), "%d/%m %H:%M:%S", gmtime(&ts.tv_sec));
     if (ret == 0) {
         return;
     }

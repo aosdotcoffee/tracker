@@ -5,11 +5,7 @@
     #include <synchapi.h>
     #include <time.h>
 #else
-    // yikes!
-    #undef _TIME_H
-    #define __USE_POSIX199309
     #include <time.h>
-    #undef __USE_POSIX199309
 #endif
 #include <assert.h>
 

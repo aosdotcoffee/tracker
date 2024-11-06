@@ -53,5 +53,5 @@ COPY --from=build \
 EXPOSE 32886/udp
 EXPOSE 32885/tcp
 
-WORKDIR /app
+WORKDIR /app/data
 CMD [ "/app/tracker" ]

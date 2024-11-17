@@ -32,6 +32,8 @@ void client_init(client_t* client)
             LOG_CLIENT_WARNING(client, "Could not look up GeoIP");
             client->gameserver.country_code[0] = '\0';
         }
+    } else {
+        client->gameserver.country_code[0] = '\0';
     }
 }
 

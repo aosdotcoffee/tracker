@@ -11,5 +11,5 @@ typedef struct timers
 typedef struct global_timers
 {
     uint64_t start;
-    uint64_t last_tick;
+    uint64_t tick_time_budget;
 } global_timers_t;

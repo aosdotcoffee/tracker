@@ -28,6 +28,8 @@ bool server_start(server_t* server, const server_args* args)
         LOG_ERROR(error); \
         return false;
 
+    /* 120TPS */
+    server->global_timers.tick_time_budget = (1000 / 120) * TIME_NANOS_IN_MILLI;
     server->global_timers.start = time_now();
 
     /* Initialize ENet */
@@ -93,11 +95,26 @@ bool server_start(server_t* server, const server_args* args)
     LOG_STATUS("Master started");
 
     while (server->running) {
+        auto tick_start = time_now();
+
         pthread_mutex_lock(&server->lock);
         server_receive_events(server);
         server_update_clients(server);
         pthread_mutex_unlock(&server->lock);
-        time_sleep_millisec(0);
+
+        auto tick_duration = time_since(tick_start);
+
+        if (tick_duration < server->global_timers.tick_time_budget) {
+            /* calculate how long we can sleep */
+            uint64_t idle_time = server->global_timers.tick_time_budget - tick_duration;
+            time_sleep_millisec(idle_time / TIME_NANOS_IN_MILLI);
+        } else {
+            /**
+             * we exceeded the time between each tick: either the tickrate is
+             * too high, or something is slowing down the server
+             */
+            LOG_WARNING("Last tick took %lums", tick_duration / TIME_NANOS_IN_MILLI);
+        }
     }
 
     // Server is shutting down

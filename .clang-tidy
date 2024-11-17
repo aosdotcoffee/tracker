@@ -30,6 +30,7 @@ Checks: >
   -android-cloexec-open,
   -cert-err33-c,
   -clang-diagnostic-fixed-enum-extension,
+  -concurrency-mt-unsafe,
 FormatStyle: 'file'
 CheckOptions:
   - key: readability-identifier-naming.ClassCase

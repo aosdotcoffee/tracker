@@ -134,3 +134,8 @@ void stream_write_f(stream_t* stream, float value)
     u.f = value;
     stream_write_u32(stream, u.v);
 }
+
+void stream_write_string(stream_t* stream, const char* string)
+{
+    stream_write_array(stream, string, strlen(string) + 1);
+}

@@ -23,5 +23,5 @@ void log_print_with_time(const char* format, ...)
     vsnprintf(f_message, 1024, format, args);
     va_end(args);
 
-    printf("\x1b[37m%s\x1B[0;37m %s", s, f_message);
+    fprintf(stderr, "\x1b[37m%s\x1B[0;37m %s", s, f_message);
 }

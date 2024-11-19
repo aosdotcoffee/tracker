@@ -5,10 +5,12 @@ void log_print_with_time(const char* format, ...);
 
 #define LOG__INT(msg, ...) log_print_with_time(msg "%s", __VA_ARGS__)
 #define LOG__CLIENT_INT(client, msg, ...)                                 \
-    {                                                                     \
+    if (client) {                                                         \
         char _client_ip[48];                                              \
         enet_address_get_host_ip(&client->peer->address, _client_ip, 48); \
         log_print_with_time(msg "%s", _client_ip, __VA_ARGS__);           \
+    } else {                                                              \
+        log_print_with_time(msg "%s", "(no client)", __VA_ARGS__);        \
     }
 
 #define LOG__INT_WITHOUT_TIME(msg, ...) printf(msg "%s", __VA_ARGS__)

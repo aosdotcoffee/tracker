@@ -25,6 +25,10 @@ target_include_directories(TrackerCommon
 
 add_subdirectory(Util)
 add_subdirectory(Server)
+if (BUILD_TESTS)
+    include(CTest)
+    add_subdirectory(Tests)
+endif()
 
 target_link_libraries(Server
     PRIVATE

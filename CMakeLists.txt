@@ -6,6 +6,7 @@ option(ASAN "Enable AddressSanitizer" OFF)
 option(TSAN "Enable ThreadSanitizer" OFF)
 option(UBSAN "Enable UndefinedBehaviorSanitizer" OFF)
 option(HARDENED "Enable various program hardening options" OFF)
+option(BUILD_TESTS "Build test files" OFF)
 
 # Third-party dependencies
 add_subdirectory(Extern)

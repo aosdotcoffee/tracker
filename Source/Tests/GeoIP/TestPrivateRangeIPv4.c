@@ -1,0 +1,12 @@
+#include <Tests/GeoIP/TestGeoIP.h>
+
+int main(void) {
+    GEOIP_TEST_DECLS();
+
+    GEOIP_ASSERT_NONE("127.0.0.0");
+    GEOIP_ASSERT_NONE("127.0.0.1");
+    GEOIP_ASSERT_NONE("192.168.1.1");
+    GEOIP_ASSERT_NONE("192.168.2.0");
+    GEOIP_ASSERT_NONE("192.168.2.1");
+    GEOIP_ASSERT_NONE("0.0.0.0");
+}

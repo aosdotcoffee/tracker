@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-void stream_create(stream_t* stream, uint32_t length)
+void stream_create(stream_t* stream, size_t length)
 {
     stream->data = make(uint8_t, length);
     stream->length = length;
@@ -20,12 +20,12 @@ void stream_free(stream_t* stream)
     }
 }
 
-uint32_t stream_left(const stream_t* stream)
+size_t stream_left(const stream_t* stream)
 {
     return (stream->pos < stream->length) ? stream->length - stream->pos : 0;
 }
 
-void stream_skip(stream_t* stream, uint32_t skip)
+void stream_skip(stream_t* stream, size_t skip)
 {
     stream->pos = (stream->pos + skip < stream->length) ? stream->pos + skip
                                                         : stream->length;
@@ -68,14 +68,14 @@ float stream_read_f(stream_t* stream)
     return u.f;
 }
 
-void stream_read_array(stream_t* stream, void* output, uint32_t length)
+void stream_read_array(stream_t* stream, void* output, size_t length)
 {
     ACCESS_CHECK_N(stream, length);
     memcpy(output, stream->data + stream->pos, length); // Replace me
     stream->pos += length;
 }
 
-size_t stream_read_string(stream_t* stream, char* output, uint32_t max_length)
+size_t stream_read_string(stream_t* stream, char* output, size_t max_length)
 {
     size_t i = 0;
 
@@ -93,7 +93,7 @@ size_t stream_read_string(stream_t* stream, char* output, uint32_t max_length)
     return i;
 }
 
-void stream_write_array(stream_t* stream, const void* array, uint32_t length)
+void stream_write_array(stream_t* stream, const void* array, size_t length)
 {
     ACCESS_CHECK_N(stream, length);
     memcpy(stream->data + stream->pos, array, length); // Replace me

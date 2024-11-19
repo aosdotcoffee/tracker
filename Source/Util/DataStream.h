@@ -52,3 +52,7 @@ void stream_write_u32(stream_t* stream, uint32_t value);
 void stream_write_f(stream_t* stream, float value);
 void stream_write_array(stream_t* stream, const void* array, size_t length);
 void stream_write_string(stream_t* stream, const char* string);
+static inline void stream_shrinkwrap(stream_t* stream) {
+    stream->length = stream->pos;
+    stream->pos = 0;
+}

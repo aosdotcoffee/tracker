@@ -7,11 +7,6 @@ option(TSAN "Enable ThreadSanitizer" OFF)
 option(UBSAN "Enable UndefinedBehaviorSanitizer" OFF)
 option(HARDENED "Enable various program hardening options" OFF)
 
-# Dependencies
-find_package(Threads REQUIRED)
-find_package(PkgConfig)
-pkg_check_modules(MMDB REQUIRED libmaxminddb)
-
 # Third-party dependencies
 add_subdirectory(Extern)
 
@@ -84,13 +79,7 @@ target_link_libraries(Tracker
     PRIVATE
         Server
         Util
-        enet
-        m
-        json-c
-        Threads::Threads
         tomlc99
-        microhttpd
-        ${MMDB_LIBRARIES}
 )
 
 target_include_directories(Tracker

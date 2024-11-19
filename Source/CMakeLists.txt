@@ -1,3 +1,8 @@
+# Dependencies
+find_package(Threads REQUIRED)
+find_package(PkgConfig)
+pkg_check_modules(MMDB REQUIRED libmaxminddb)
+
 target_sources(Tracker
     PRIVATE
         Main.c

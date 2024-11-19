@@ -49,4 +49,10 @@ target_link_libraries(Server
     PRIVATE
         TrackerCommon
         Util
+        m
+        json-c
+        Threads::Threads
+        microhttpd
+        enet
+        ${MMDB_LIBRARIES}
 )

@@ -2,6 +2,7 @@
 #pragma once
 #include <stddef.h>
 #include <stdint.h>
+#include <string.h>
 
 #ifndef NDEBUG
     #include <stdio.h> // IWYU pragma: keep
@@ -55,4 +56,8 @@ void stream_write_string(stream_t* stream, const char* string);
 static inline void stream_shrinkwrap(stream_t* stream) {
     stream->length = stream->pos;
     stream->pos = 0;
+}
+
+static inline void stream_zero(stream_t* stream) {
+    memset(stream->data, 0, stream->length);
 }

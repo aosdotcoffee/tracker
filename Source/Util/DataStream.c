@@ -79,13 +79,15 @@ size_t stream_read_string(stream_t* stream, char* output, size_t max_length)
 {
     size_t i = 0;
 
-    while (stream_left(stream) != 0 && i < max_length - 1) {
+    while (stream_left(stream) != 0) {
         char read = stream_read_u8(stream);
         if (read == '\0') {
             break;
         }
 
-        output[i++] = read;
+        if (i < max_length - 1) {
+            output[i++] = read;
+        }
     }
 
     output[i] = '\0';

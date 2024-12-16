@@ -29,7 +29,7 @@ bool server_start(server_t* server, const server_args* args)
         return false;
 
     /* 120TPS */
-    server->global_timers.tick_time_budget = (1000 / 120) * TIME_NANOS_IN_MILLI;
+    server->global_timers.tick_time_budget = (1000 / 30) * TIME_NANOS_IN_MILLI;
     server->global_timers.start = time_now();
 
     /* Initialize ENet */

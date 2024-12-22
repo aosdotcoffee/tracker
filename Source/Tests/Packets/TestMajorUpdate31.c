@@ -96,7 +96,7 @@ static void _test_invalid_long(stream_t* stream) {
     assert(packet->port == port);
     assert_str_equals(packet->name, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
     assert_str_equals(packet->gamemode, "veryver");
-    assert_str_equals(packet->map, "alsoaverylongmapyea");
+    assert_str_equals(packet->map, "alsoaverylongmapyeah");
 }
 
 static void _test_all_null(stream_t* stream) {

@@ -11,7 +11,7 @@ enum : uint64_t {
 enum : uint16_t {
     MAX_SERVER_NAME_LENGTH = 32,
     MAX_GAMEMODE_LENGTH = 8,
-    MAX_MAP_LENGTH = 20,
+    MAX_MAP_LENGTH = 21,
 };
 
 typedef enum {

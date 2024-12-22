@@ -35,7 +35,7 @@ add_subdirectory(Source)
 
 # Enable sanitizers
 # Comes before the other libraries because ASAN needs to be first
-if (ASAN OR HARDENED)
+if (ASAN)
     if (TSAN)
         message(FATAL_ERROR "You cannot enable ASAN and TSAN at the same time")
     endif()
@@ -61,7 +61,7 @@ if (TSAN)
     )
 endif()
 
-if (UBSAN OR HARDENED)
+if (UBSAN)
     add_compile_options(
         -fsanitize=undefined
     )
@@ -73,7 +73,7 @@ if (UBSAN OR HARDENED)
 endif()
 
 if (HARDENED)
-    add_compile_options(-fhardened)
+    add_compile_options(-fhardened -D_FORTIFY_SOURCE=1)
 endif()
 
 target_link_libraries(Tracker

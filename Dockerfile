@@ -38,7 +38,7 @@ RUN sed -i \
 
 # compile!
 WORKDIR /usr/src/tracker/build
-RUN LDFLAGS="-static" cmake ..
+RUN LDFLAGS="-static" cmake .. -DHARDENED=ON
 RUN make -j`nproc`
 RUN mkdir /app
 RUN cp Tracker /app/tracker

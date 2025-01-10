@@ -38,6 +38,11 @@ major_update_pkt* parse_v31_major_update_packet(client_t* client, stream_t* stre
 major_update_pkt* parse_v17_major_update_packet(client_t* client, stream_t* stream)
 {
     auto packet = make(major_update_pkt);
+    /* v17 does not support these */
+    packet->gamemode[0] = '\0';
+    packet->map[0] = '\0';
+    /* you can't set a different port anyway */
+    packet->port = 32887;
 
     /* max_players (1B) + name (at least null terminator, 1B) */
     if (stream_left(stream) < 3) {
@@ -47,7 +52,6 @@ major_update_pkt* parse_v17_major_update_packet(client_t* client, stream_t* stre
     }
 
     packet->max_players = stream_read_u8(stream);
-    packet->port = 32887; // this version of the protocol doesn't send the port!
 
     size_t name_size = stream_read_string(stream, packet->name, MAX_SERVER_NAME_LENGTH);
     if (name_size == 0) {

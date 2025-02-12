@@ -27,6 +27,18 @@ typedef enum {
     VERSION_076 = 32,
 } protocol_version_t;
 
+static inline bool protocol_version_is_valid(int version) {
+    switch ((protocol_version_t) version) {
+    case VERSION_054:
+    case VERSION_060:
+    case VERSION_075:
+    case VERSION_076:
+        return true;
+    }
+
+    return false;
+}
+
 typedef enum {
     REASON_BANNED = 1,
     REASON_IP_LIMIT_EXCEEDED = 2,

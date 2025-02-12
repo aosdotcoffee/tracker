@@ -175,9 +175,7 @@ void server_update_clients(server_t* server)
 void server_handle_enet_connect(server_t* server, ENetEvent* event)
 {
     /* check if the client is connecting with the right version */
-    if (event->data != VERSION_054 && event->data != VERSION_075 &&
-        event->data != VERSION_060 && event->data != VERSION_076)
-    {
+    if (!protocol_version_is_valid(event->data)) {
         char ip_address[48];
         enet_address_get_host_ip(&event->peer->address, ip_address, 48);
 

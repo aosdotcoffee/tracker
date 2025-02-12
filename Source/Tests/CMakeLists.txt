@@ -13,9 +13,14 @@ set(Packets_TESTS
     MajorUpdate31
 )
 
+set(Utils_TESTS
+    ProtocolVersion
+)
+
 set(TEST_SCOPES
     GeoIP
     Packets
+    Utils
 )
 
 foreach(SCOPE_NAME ${TEST_SCOPES})

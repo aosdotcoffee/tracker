@@ -24,6 +24,7 @@ typedef enum {
     VERSION_17 = 17,
     VERSION_23 = 23,
     VERSION_31 = 31,
+    VERSION_32 = 32,
 } protocol_version_t;
 
 typedef enum {

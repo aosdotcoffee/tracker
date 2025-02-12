@@ -94,6 +94,9 @@ static enum MHD_Result _httpd_process_request(
             case VERSION_31:
                 version = "0.75";
                 break;
+            case VERSION_32:
+                version = "0.76";
+                break;
             default:
                 version = "0.00";
                 break;

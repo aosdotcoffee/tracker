@@ -1,6 +1,8 @@
 // Copyright DarkNeutrino 2021
 #pragma once
+#include <stddef.h>
 #include <stdint.h>
+#include <string.h>
 
 enum : uint64_t {
     NANO_IN_SECOND = 1000000000,
@@ -37,6 +39,25 @@ static inline bool protocol_version_is_valid(int version) {
     }
 
     return false;
+}
+
+static inline const char* protocol_version_to_string(protocol_version_t version) {
+    if (!protocol_version_is_valid(version)) {
+        return strdup("0.00");
+    }
+
+    switch (version) {
+        case VERSION_054:
+            return strdup("0.54");
+        case VERSION_060:
+            return strdup("0.60");
+        case VERSION_075:
+            return strdup("0.75");
+        case VERSION_076:
+            return strdup("0.76");
+    }
+
+    unreachable();
 }
 
 typedef enum {

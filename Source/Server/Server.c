@@ -233,9 +233,9 @@ void server_handle_enet_connect(server_t* server, ENetEvent* event)
     client_init(client);
     LOG_CLIENT_STATUS(
         client,
-        "Connected [Country: %s] [Version: %u]",
+        "Connected [Country: %s] [Version: %s]",
         client->gameserver.country_code,
-        client->version
+        protocol_version_to_string(client->version)
     );
 }
 

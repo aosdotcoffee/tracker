@@ -52,7 +52,7 @@ static enum MHD_Result _httpd_process_request(
         memcpy(&address, &peer->address, sizeof(ENetAddress));
         address.port = 0;
 
-        char identifier[54];
+        char identifier[55];
         if (ENETH_ADDRESS_IS_V4_MAPPED(&address)) {
             /* if mapped v4 */
             uint32_t address_decimal = 0;
@@ -68,15 +68,15 @@ static enum MHD_Result _httpd_process_request(
             );
         } else {
             /* if plain v6 */
-            char ipv6_address[39];
+            char ipv6_address[40];
 
             ENSURE(
-                enet_address_get_host_ip(&address, ipv6_address, 48) == 0,
+                enet_address_get_host_ip(&address, ipv6_address, sizeof(ipv6_address)) == 0,
                 "Failed to get host IPv6 address"
             );
 
             snprintf(
-                identifier, 53, "aos://[%s]:%u", ipv6_address, client->gameserver.port
+                identifier, sizeof(identifier), "aos://[%s]:%u", ipv6_address, client->gameserver.port
             );
         }
 

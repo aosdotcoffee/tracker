@@ -8,14 +8,13 @@
 
 major_update_pkt* parse_v31_major_update_packet(client_t* client, stream_t* stream)
 {
-    auto packet = make(major_update_pkt);
-
     /* max_players (1B) + port (2B) + name (at least null terminator, 1B) */
     if (stream_left(stream) < 4) {
         LOG_CLIENT_WARNING(client, "Malformed MajorUpdate packet: packet too small");
-        free(packet);
         return NULL;
     }
+
+    auto packet = make(major_update_pkt);
 
     packet->max_players = stream_read_u8(stream);
     packet->port = stream_read_u16(stream);

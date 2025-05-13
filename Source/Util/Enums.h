@@ -42,22 +42,28 @@ static inline bool protocol_version_is_valid(int version) {
 }
 
 static inline const char* protocol_version_to_string(protocol_version_t version) {
+    static char version_string[5];
+
     if (!protocol_version_is_valid(version)) {
-        return strdup("0.00");
+        return strcpy(version_string, "0.00");
     }
 
     switch (version) {
         case VERSION_054:
-            return strdup("0.54");
+            return strcpy(version_string, "0.54");
         case VERSION_060:
-            return strdup("0.60");
+            return strcpy(version_string, "0.60");
         case VERSION_075:
-            return strdup("0.75");
+            return strcpy(version_string, "0.75");
         case VERSION_076:
-            return strdup("0.76");
+            return strcpy(version_string, "0.76");
     }
 
+#ifdef unreachable
     unreachable();
+#else
+    return NULL;
+#endif
 }
 
 typedef enum {

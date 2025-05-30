@@ -12,4 +12,5 @@ int main() {
     assert_str_equals(protocol_version_to_string(VERSION_060), "0.60");
     assert_str_equals(protocol_version_to_string(VERSION_075), "0.75");
     assert_str_equals(protocol_version_to_string(VERSION_076), "0.76");
+    assert_str_equals(protocol_version_to_string(VERSION_BGS_01), "bgs0.1");
 }

@@ -281,6 +281,7 @@ void server_handle_enet_receive(server_t* server, ENetEvent* event)
         major_update_pkt* major_update;
 
         switch (client->version) {
+            case VERSION_BGS_01:
             case VERSION_075:
             case VERSION_076:
                 major_update = parse_v31_major_update_packet(client, &stream);

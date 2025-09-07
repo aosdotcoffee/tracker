@@ -1,4 +1,4 @@
-FROM alpine:3.19.0 AS build
+FROM alpine:3.22.1 AS build
 
 RUN apk add --no-cache \
     gcc \

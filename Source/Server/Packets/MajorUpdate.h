@@ -1,7 +1,7 @@
 #pragma once
-#include <Server/Structs/ClientStruct.h>
-#include <Util/DataStream.h>
-#include <Util/Enums.h>
+#include "Server/Structs/ClientStruct.h"
+#include "Util/DataStream.h"
+#include "Util/Enums.h"
 #include <stdint.h>
 
 typedef struct major_update_packet

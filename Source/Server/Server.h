@@ -5,8 +5,8 @@
     "UNRELEASED" \
     " Compiled on " __DATE__ " " __TIME__
 
-#include <Server/Structs/ServerStruct.h>
-#include <Server/Structs/StartStruct.h>
+#include "Structs/ServerStruct.h"
+#include "Structs/StartStruct.h"
 #include <enet6/enet.h>
 #include <pthread.h>
 

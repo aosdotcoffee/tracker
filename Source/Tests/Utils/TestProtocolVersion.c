@@ -1,5 +1,5 @@
-#include <Tests/TestUtil.h>
-#include <Util/Enums.h>
+#include "Tests/TestUtil.h"
+#include "Util/Enums.h"
 
 int main() {
     assert_false(protocol_version_is_valid(0));

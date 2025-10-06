@@ -1,6 +1,6 @@
-#include <Server/Packets/CountUpdate.h>
-#include <Tests/TestUtil.h>
-#include <Util/DataStream.h>
+#include "Server/Packets/CountUpdate.h"
+#include "Tests/TestUtil.h"
+#include "Util/DataStream.h"
 
 int main(void) {
     stream_t stream;

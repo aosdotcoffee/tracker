@@ -1,7 +1,7 @@
 #pragma once
-#include <Server/Structs/GameserverStruct.h>
-#include <Server/Structs/TimerStruct.h>
-#include <Util/Enums.h>
+#include "GameserverStruct.h"
+#include "TimerStruct.h"
+#include "Util/Enums.h"
 #include <enet6/enet.h>
 #include <stdint.h>
 

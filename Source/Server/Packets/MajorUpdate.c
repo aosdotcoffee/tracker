@@ -1,9 +1,9 @@
-#include <Server/Packets/MajorUpdate.h>
-#include <Server/Structs/ClientStruct.h>
-#include <Util/DataStream.h>
-#include <Util/Enums.h>
-#include <Util/Log.h>
-#include <Util/Mem.h>
+#include "Server/Packets/MajorUpdate.h"
+#include "Server/Structs/ClientStruct.h"
+#include "Util/DataStream.h"
+#include "Util/Enums.h"
+#include "Util/Log.h"
+#include "Util/Mem.h"
 #include <stdlib.h>
 
 major_update_pkt* parse_v31_major_update_packet(client_t* client, stream_t* stream)

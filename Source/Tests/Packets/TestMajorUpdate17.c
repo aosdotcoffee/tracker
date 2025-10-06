@@ -1,7 +1,7 @@
-#include <Server/Packets/MajorUpdate.h>
-#include <Tests/TestUtil.h>
-#include <Util/DataStream.h>
-#include <Util/Mem.h>
+#include "Server/Packets/MajorUpdate.h"
+#include "Tests/TestUtil.h"
+#include "Util/DataStream.h"
+#include "Util/Mem.h"
 #include <assert.h>
 #include <stdint.h>
 #include <string.h>

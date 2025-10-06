@@ -1,4 +1,4 @@
-#include <Tests/GeoIP/TestGeoIP.h>
+#include "TestGeoIP.h"
 
 int main(void) {
     GEOIP_TEST_DECLS();

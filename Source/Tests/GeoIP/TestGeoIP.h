@@ -1,6 +1,6 @@
 #pragma once
-#include <Server/GeoIP.h>
-#include <Tests/TestUtil.h>
+#include "Server/GeoIP.h"
+#include "Tests/TestUtil.h"
 
 #define GEOIP_TEST_DECLS() \
     MMDB_s mmdb; \

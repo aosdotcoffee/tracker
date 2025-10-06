@@ -1,5 +1,5 @@
-#include <Util/Log.h>
-#include <Server/GeoIP.h>
+#include "Util/Log.h"
+#include "GeoIP.h"
 #include <maxminddb.h>
 #include <string.h>
 

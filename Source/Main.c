@@ -2,6 +2,7 @@
 #include "Server/Structs/ServerStruct.h"
 #include "Server/Structs/StartStruct.h"
 #include "Util/TOMLHelpers.h"
+
 #include <signal.h>
 #include <stdlib.h>
 #include <tomlc99/toml.h>

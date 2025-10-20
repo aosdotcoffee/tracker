@@ -1,5 +1,7 @@
-#include "Util/Log.h"
 #include "GeoIP.h"
+
+#include "Util/Log.h"
+
 #include <maxminddb.h>
 #include <string.h>
 
@@ -17,26 +19,18 @@ bool geoip_get_alpha2_country(MMDB_s* mmdb, char* out, const char* ip_address)
 
     mmdb_res = MMDB_lookup_string(mmdb, ip_address, &gai_error, &mmdb_error);
 
-    if (
-        gai_error < 0 ||
-        mmdb_error != MMDB_SUCCESS ||
-        !mmdb_res.found_entry
-    ) {
+    if (gai_error < 0 || mmdb_error != MMDB_SUCCESS || !mmdb_res.found_entry) {
         return false;
     }
 
-    mmdb_error = MMDB_get_value(
-        &mmdb_res.entry, &entry_data, "country", "iso_code", NULL
-    );
+    mmdb_error =
+        MMDB_get_value(&mmdb_res.entry, &entry_data, "country", "iso_code", NULL);
 
-    if (
-        mmdb_error != MMDB_SUCCESS ||
-        !entry_data.has_data ||
+    if (mmdb_error != MMDB_SUCCESS || !entry_data.has_data ||
 
         /* Expect country code to be 2 byte UTF-8 string (not null-terminated) */
-        entry_data.type != MMDB_DATA_TYPE_UTF8_STRING ||
-        entry_data.data_size != 2
-    ) {
+        entry_data.type != MMDB_DATA_TYPE_UTF8_STRING || entry_data.data_size != 2)
+    {
         return false;
     }
 

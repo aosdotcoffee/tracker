@@ -1,4 +1,5 @@
 #include "Httpd.h"
+
 #include "Server.h"
 #include "Structs/ClientStruct.h"
 #include "Util/ENetHelpers.h"
@@ -6,6 +7,7 @@
 #include "Util/Enums.h"
 #include "Util/JSONHelpers.h"
 #include "Util/Log.h"
+
 #include <enet6/enet.h>
 #include <json-c/json_object.h>
 #include <json-c/json_types.h>
@@ -71,12 +73,17 @@ static enum MHD_Result _httpd_process_request(
             char ipv6_address[40];
 
             ENSURE(
-                enet_address_get_host_ip(&address, ipv6_address, sizeof(ipv6_address)) == 0,
+                enet_address_get_host_ip(&address, ipv6_address, sizeof(ipv6_address)) ==
+                    0,
                 "Failed to get host IPv6 address"
             );
 
             snprintf(
-                identifier, sizeof(identifier), "aos://[%s]:%u", ipv6_address, client->gameserver.port
+                identifier,
+                sizeof(identifier),
+                "aos://[%s]:%u",
+                ipv6_address,
+                client->gameserver.port
             );
         }
 

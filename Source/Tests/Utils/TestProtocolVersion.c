@@ -1,7 +1,8 @@
 #include "Tests/TestUtil.h"
 #include "Util/Enums.h"
 
-int main() {
+int main()
+{
     assert_false(protocol_version_is_valid(0));
     assert_false(protocol_version_is_valid(-1));
     assert_false(protocol_version_is_valid(100));

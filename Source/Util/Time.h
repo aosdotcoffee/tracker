@@ -22,7 +22,8 @@ static inline uint64_t time_now(void)
 {
     struct timespec ts;
 
-    [[maybe_unused]] int ret = timespec_get(&ts, TIME_UTC);
+    [[maybe_unused]]
+    int ret = timespec_get(&ts, TIME_UTC);
     assert(ret != 0);
     return ((uint64_t) ts.tv_sec) * TIME_NANOS_IN_SECOND + ts.tv_nsec;
 }

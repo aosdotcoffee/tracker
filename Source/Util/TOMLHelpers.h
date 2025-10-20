@@ -1,5 +1,6 @@
 #pragma once
 #include "Log.h"
+
 #include <tomlc99/toml.h> // IWYU pragma: keep
 
 #define TOMLH_READ_FROM_FILE(toml, path)                                       \

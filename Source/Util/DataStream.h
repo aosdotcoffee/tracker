@@ -6,19 +6,26 @@
 
 #ifndef NDEBUG
     #include <stdio.h> // IWYU pragma: keep
-    #define LOG_OOB_ACCESS(stream, size) \
-        fputs("\x1b[1;31mERROR:\x1b[0;1m " \
-              "Out-of-bounds access on DataStream object\x1b[0;0m\n", \
-              stderr); \
-        fprintf(stderr, \
-                "       \x1b[1m" \
-                "Trying to access offset [%zu-%zu] on stream of size [%zu]" \
-                "\x1b[0m\n", stream->pos, stream->pos + size, stream->length)
+    #define LOG_OOB_ACCESS(stream, size)                                \
+        fputs(                                                          \
+            "\x1b[1;31mERROR:\x1b[0;1m "                                \
+            "Out-of-bounds access on DataStream object\x1b[0;0m\n",     \
+            stderr                                                      \
+        );                                                              \
+        fprintf(                                                        \
+            stderr,                                                     \
+            "       \x1b[1m"                                            \
+            "Trying to access offset [%zu-%zu] on stream of size [%zu]" \
+            "\x1b[0m\n",                                                \
+            stream->pos,                                                \
+            stream->pos + size,                                         \
+            stream->length                                              \
+        )
 #else
     #define LOG_OOB_ACCESS(stream, size)
 #endif
 
-#define ACCESS_CHECK(stream, size) \
+#define ACCESS_CHECK(stream, size)             \
     if (stream->pos + size > stream->length) { \
         LOG_OOB_ACCESS(stream, size);          \
         return 0;                              \
@@ -53,11 +60,13 @@ void stream_write_u32(stream_t* stream, uint32_t value);
 void stream_write_f(stream_t* stream, float value);
 void stream_write_array(stream_t* stream, const void* array, size_t length);
 void stream_write_string(stream_t* stream, const char* string);
-static inline void stream_shrinkwrap(stream_t* stream) {
+static inline void stream_shrinkwrap(stream_t* stream)
+{
     stream->length = stream->pos;
     stream->pos = 0;
 }
 
-static inline void stream_zero(stream_t* stream) {
+static inline void stream_zero(stream_t* stream)
+{
     memset(stream->data, 0, stream->length);
 }

@@ -1,9 +1,10 @@
+#include "Server.h"
+
 #include "Client.h"
 #include "GeoIP.h"
 #include "Httpd.h"
 #include "Packets/CountUpdate.h"
 #include "Packets/MajorUpdate.h"
-#include "Server.h"
 #include "Structs/ClientStruct.h"
 #include "Structs/ServerStruct.h"
 #include "Structs/StartStruct.h"
@@ -14,8 +15,9 @@
 #include "Util/Log.h"
 #include "Util/Mem.h"
 #include "Util/Time.h"
-#include <errno.h>
+
 #include <enet6/enet.h>
+#include <errno.h>
 #include <pthread.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -66,7 +68,11 @@ bool server_start(server_t* server, const server_args* args)
         int mmdb_status = geoip_init(&server->mmdb, args->mmdb_path);
 
         if (mmdb_status != MMDB_SUCCESS) {
-            LOG_ERROR("Cannot open MMDB file %s - %s", args->mmdb_path, MMDB_strerror(mmdb_status));
+            LOG_ERROR(
+                "Cannot open MMDB file %s - %s",
+                args->mmdb_path,
+                MMDB_strerror(mmdb_status)
+            );
 
             if (mmdb_status == MMDB_IO_ERROR) {
                 LOG_ERROR("IO Error: %s", strerror(errno));

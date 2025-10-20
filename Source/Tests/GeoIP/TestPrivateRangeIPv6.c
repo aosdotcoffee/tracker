@@ -1,6 +1,7 @@
 #include "TestGeoIP.h"
 
-int main(void) {
+int main(void)
+{
     GEOIP_TEST_DECLS();
 
     GEOIP_ASSERT_NONE("::");

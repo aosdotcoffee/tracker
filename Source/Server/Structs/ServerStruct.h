@@ -1,6 +1,7 @@
 #pragma once
 #include "ClientStruct.h"
 #include "TimerStruct.h"
+
 #include <enet6/enet.h>
 #include <maxminddb.h>
 #include <pthread.h>

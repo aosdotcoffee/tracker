@@ -1,6 +1,8 @@
 // Copyright CircumScriptor and DarkNeutrino 2021
 #include "DataStream.h"
+
 #include "Mem.h"
+
 #include <stddef.h>
 #include <stdint.h>
 #include <stdlib.h>

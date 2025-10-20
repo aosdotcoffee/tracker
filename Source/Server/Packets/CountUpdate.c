@@ -1,4 +1,5 @@
 #include "Server/Packets/CountUpdate.h"
+
 #include "Server/Structs/ClientStruct.h"
 #include "Util/DataStream.h"
 #include "Util/Log.h"

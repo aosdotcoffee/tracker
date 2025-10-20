@@ -31,20 +31,22 @@ typedef enum {
     VERSION_BGS_01 = 133,
 } protocol_version_t;
 
-static inline bool protocol_version_is_valid(int version) {
+static inline bool protocol_version_is_valid(int version)
+{
     switch ((protocol_version_t) version) {
-    case VERSION_054:
-    case VERSION_060:
-    case VERSION_075:
-    case VERSION_076:
-    case VERSION_BGS_01:
-        return true;
+        case VERSION_054:
+        case VERSION_060:
+        case VERSION_075:
+        case VERSION_076:
+        case VERSION_BGS_01:
+            return true;
     }
 
     return false;
 }
 
-static inline const char* protocol_version_to_string(protocol_version_t version) {
+static inline const char* protocol_version_to_string(protocol_version_t version)
+{
     static char version_string[7];
 
     if (!protocol_version_is_valid(version)) {

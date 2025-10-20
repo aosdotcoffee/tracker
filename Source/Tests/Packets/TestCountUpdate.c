@@ -2,7 +2,8 @@
 #include "Tests/TestUtil.h"
 #include "Util/DataStream.h"
 
-int main(void) {
+int main(void)
+{
     stream_t stream;
     stream_create(&stream, 1);
     stream_write_u8(&stream, 25);

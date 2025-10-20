@@ -1,4 +1,5 @@
 #include "Client.h"
+
 #include "GeoIP.h"
 #include "Packets/CountUpdate.h"
 #include "Packets/MajorUpdate.h"
@@ -7,6 +8,7 @@
 #include "Util/Enums.h"
 #include "Util/Log.h"
 #include "Util/Time.h"
+
 #include <enet6/enet.h>
 #include <stdlib.h>
 #include <string.h>

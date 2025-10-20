@@ -1,5 +1,5 @@
 #pragma once
-#include "Server/GeoIP.h"
+#include "Server/GeoIP.h" // IWYU pragma: keep
 #include "Tests/TestUtil.h"
 
 #define GEOIP_TEST_DECLS()                            \

@@ -41,7 +41,7 @@ void client_init(client_t* client)
 
 void client_destroy(client_t* client)
 {
-    client->peer->data = NULL;
+    client->peer->data = nullptr;
     free(client);
 }
 

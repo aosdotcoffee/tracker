@@ -69,7 +69,7 @@ static inline const char* protocol_version_to_string(protocol_version_t version)
 #ifdef unreachable
     unreachable();
 #else
-    return NULL;
+    return nullptr;
 #endif
 }
 

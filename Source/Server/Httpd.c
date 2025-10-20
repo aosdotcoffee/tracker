@@ -133,10 +133,10 @@ void httpd_start(server_t* server, uint16_t port)
     int flags = MHD_USE_INTERNAL_POLLING_THREAD | MHD_USE_DUAL_STACK;
 
     server->httpd = MHD_start_daemon(
-        flags, port, NULL, NULL, &_httpd_process_request, (void*) server, MHD_OPTION_END
+        flags, port, nullptr, nullptr, &_httpd_process_request, (void*) server, MHD_OPTION_END
     );
 
-    ENSURE(server->httpd != NULL, "Failed to start libmicrohttpd daemon");
+    ENSURE(server->httpd != nullptr, "Failed to start libmicrohttpd daemon");
 
     LOG_STATUS("Httpd started");
 }

@@ -10,14 +10,14 @@ int main(void)
     stream_shrinkwrap(&stream);
 
     {
-        auto packet = parse_count_update_packet(NULL, &stream);
+        auto packet = parse_count_update_packet(nullptr, &stream);
         assert(packet);
         assert(packet->current_players == 25);
     }
 
     {
         stream.length = 0;
-        auto packet = parse_count_update_packet(NULL, &stream);
+        auto packet = parse_count_update_packet(nullptr, &stream);
         assert_null(packet);
     }
 

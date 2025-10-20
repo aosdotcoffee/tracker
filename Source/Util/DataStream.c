@@ -17,7 +17,7 @@ void stream_create(stream_t* stream, size_t length)
 
 void stream_free(stream_t* stream)
 {
-    if (stream->data != NULL) {
+    if (stream->data != nullptr) {
         free(stream->data);
     }
 }

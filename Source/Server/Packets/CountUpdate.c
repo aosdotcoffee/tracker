@@ -9,7 +9,7 @@ count_update_pkt* parse_count_update_packet(client_t* client, stream_t* stream)
 {
     if (stream->length != 1) {
         LOG_CLIENT_WARNING(client, "Invalid CountUpdate length");
-        return NULL;
+        return nullptr;
     }
 
     auto packet = make(count_update_pkt);

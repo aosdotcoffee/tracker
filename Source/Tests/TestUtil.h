@@ -13,7 +13,7 @@
 
 #define assert_false(expr) assert((expr) == false)
 
-#define assert_null(expr) assert((expr) == NULL)
+#define assert_null(expr) assert((expr) == nullptr)
 
 [[maybe_unused]]
 static void _dbgln_u8(uint8_t value)

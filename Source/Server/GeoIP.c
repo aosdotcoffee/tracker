@@ -24,7 +24,7 @@ bool geoip_get_alpha2_country(MMDB_s* mmdb, char* out, const char* ip_address)
     }
 
     mmdb_error =
-        MMDB_get_value(&mmdb_res.entry, &entry_data, "country", "iso_code", NULL);
+        MMDB_get_value(&mmdb_res.entry, &entry_data, "country", "iso_code", nullptr);
 
     if (mmdb_error != MMDB_SUCCESS || !entry_data.has_data ||
 

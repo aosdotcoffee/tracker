@@ -23,7 +23,7 @@ static void _test_normal_packet(stream_t* stream)
     stream_write_string(stream, name);
     stream_shrinkwrap(stream);
 
-    auto packet = parse_v17_major_update_packet(NULL, stream);
+    auto packet = parse_v17_major_update_packet(nullptr, stream);
     assert(packet);
     assert(packet->max_players == max_players);
     assert(packet->port == 32887);
@@ -38,7 +38,7 @@ static void _test_empty_stream(void)
     stream_create(&stream, 1);
     stream.length = 0;
 
-    assert_null(parse_v17_major_update_packet(NULL, &stream));
+    assert_null(parse_v17_major_update_packet(nullptr, &stream));
     stream_free(&stream);
 }
 
@@ -50,7 +50,7 @@ static void _test_invalid_short(void)
     stream.pos = 0;
     stream.length = 2;
 
-    assert_null(parse_v17_major_update_packet(NULL, &stream));
+    assert_null(parse_v17_major_update_packet(nullptr, &stream));
     stream_free(&stream);
 }
 
@@ -64,7 +64,7 @@ static void _test_invalid_long(stream_t* stream)
     stream_write_string(stream, name);
     stream_shrinkwrap(stream);
 
-    auto packet = parse_v17_major_update_packet(NULL, stream);
+    auto packet = parse_v17_major_update_packet(nullptr, stream);
     assert(packet);
     assert(packet->max_players == max_players);
     assert(packet->port == 32887);
@@ -77,7 +77,7 @@ static void _test_all_null(stream_t* stream)
 {
     stream_zero(stream);
 
-    auto packet = parse_v17_major_update_packet(NULL, stream);
+    auto packet = parse_v17_major_update_packet(nullptr, stream);
     assert_null(packet);
 }
 

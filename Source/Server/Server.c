@@ -36,7 +36,7 @@ bool server_start(server_t* server, const server_args* args)
     atexit(enet_deinitialize);
 
     ENSURE(
-        pthread_mutex_init(&server->lock, NULL) == 0, "Server mutex failed to initialize"
+        pthread_mutex_init(&server->lock, nullptr) == 0, "Server mutex failed to initialize"
     );
 
     ENetAddress address;
@@ -53,7 +53,7 @@ bool server_start(server_t* server, const server_args* args)
         args->max_bandwidth_out
     );
 
-    if (server->host == NULL) {
+    if (server->host == nullptr) {
         LOG_ERROR("Cannot create ENet host. Is the port already in use?");
         return false;
     }
@@ -91,7 +91,7 @@ bool server_start(server_t* server, const server_args* args)
 
     server->idle_timeout = args->idle_timeout * NANO_IN_MILLI;
     server->max_connections_per_range = args->max_connections_per_range;
-    server->clients = NULL;
+    server->clients = nullptr;
     server->running = 1;
 
     httpd_start(server, args->httpd_port);
@@ -123,7 +123,7 @@ bool server_start(server_t* server, const server_args* args)
     // Server is shutting down
     FOR_PEERS(server->host, peer)
     {
-        if (peer->data == NULL) {
+        if (peer->data == nullptr) {
             continue;
         }
 
@@ -247,7 +247,7 @@ void server_handle_enet_disconnect(server_t* server, ENetEvent* event)
     (void) server;
 
     client_t* client = (client_t*) event->peer->data;
-    if (client == NULL) {
+    if (client == nullptr) {
         LOG_ERROR("Received a disconnect event from a peer that has no client");
         return;
     }
@@ -268,7 +268,7 @@ void server_handle_enet_receive(server_t* server, ENetEvent* event)
     (void) server;
 
     client_t* client = (client_t*) event->peer->data;
-    if (client == NULL) {
+    if (client == nullptr) {
         LOG_ERROR("Received a message from a peer that has no client");
         return;
     }

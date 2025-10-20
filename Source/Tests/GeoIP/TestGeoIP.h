@@ -11,7 +11,7 @@
     assert_false(geoip_get_alpha2_country(&mmdb, code, address)); \
     assert_str_empty(code);
 
-#define GEOIP_ASSERT_COUNTRY(address, country)                      \
-    assert(geoip_get_alpha2_country(&mmdb, code, address) == true); \
-    assert_str_equals(code, country);                               \
+#define GEOIP_ASSERT_COUNTRY(address, country)                   \
+    assert_true(geoip_get_alpha2_country(&mmdb, code, address)); \
+    assert_str_equals(code, country);                            \
     memset(code, 0, 3);

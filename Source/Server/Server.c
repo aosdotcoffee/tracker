@@ -24,10 +24,6 @@
 
 bool server_start(server_t* server, const server_args* args)
 {
-    #define _FAIL(error) \
-        LOG_ERROR(error); \
-        return false;
-
     /* 30TPS */
     server->global_timers.tick_time_budget = (1000 / 30) * TIME_NANOS_IN_MILLI;
     server->global_timers.start = time_now();
@@ -56,7 +52,8 @@ bool server_start(server_t* server, const server_args* args)
     );
 
     if (server->host == NULL) {
-        _FAIL("Cannot create ENet host. Is the port already in use?");
+        LOG_ERROR("Cannot create ENet host. Is the port already in use?");
+        return false;
     }
 
     ENSURE(

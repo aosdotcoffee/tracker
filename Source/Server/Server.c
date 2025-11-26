@@ -48,7 +48,7 @@ bool server_start(server_t* server, const server_args* args)
         ENET_ADDRESS_TYPE_IPV6,
         &address,
         args->max_connections,
-        args->channels,
+        2,
         args->max_bandwidth_in,
         args->max_bandwidth_out
     );

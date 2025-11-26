@@ -7,7 +7,6 @@ typedef struct server_args
     uint32_t max_connections;
     uint32_t max_bandwidth_in;
     uint32_t max_bandwidth_out;
-    uint32_t channels;
 
     // master
     uint16_t master_port;

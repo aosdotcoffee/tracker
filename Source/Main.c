@@ -31,7 +31,6 @@ int main(void)
     TOMLH_GET_INT(master_table, args.max_connections, "max_connections", 128, 1);
     TOMLH_GET_INT(master_table, args.max_bandwidth_in, "max_bandwidth_in", 0, 1);
     TOMLH_GET_INT(master_table, args.max_bandwidth_out, "max_bandwidth_out", 0, 1);
-    TOMLH_GET_INT(master_table, args.channels, "channels", 2, 1);
     TOMLH_GET_INT(master_table, args.idle_timeout, "idle_timeout", 15000, 1);
     TOMLH_GET_STRING(master_table, args.mmdb_path, "mmdb_path", nullptr, 1);
     TOMLH_GET_INT(

@@ -17,12 +17,12 @@ RUN apk add --no-cache \
 # alpine's libmicrohttpd is compiled with https support enabled, but they don't offer
 # static gnutls builds :(
 WORKDIR /usr/src
-RUN wget https://ftpmirror.gnu.org/gnu/libmicrohttpd/libmicrohttpd-1.0.2.tar.gz
-RUN [ $(sha256sum libmicrohttpd-1.0.2.tar.gz | cut -d' ' -f1) == "df324fcd0834175dab07483133902d9774a605bfa298025f69883288fd20a8c7" ]
-RUN tar xvf libmicrohttpd-1.0.2.tar.gz
-RUN rm libmicrohttpd-1.0.2.tar.gz
+RUN wget https://ftpmirror.gnu.org/gnu/libmicrohttpd/libmicrohttpd-1.0.3.tar.gz
+RUN [ $(sha256sum libmicrohttpd-1.0.3.tar.gz | cut -d' ' -f1) == "7816b57aae199cf5c3645e8770e1be5f0a4dfafbcb24b3772173dc4ee634126a" ]
+RUN tar xvf libmicrohttpd-1.0.3.tar.gz
+RUN rm libmicrohttpd-1.0.3.tar.gz
 
-WORKDIR /usr/src/libmicrohttpd-1.0.2
+WORKDIR /usr/src/libmicrohttpd-1.0.3
 RUN ./configure --disable-https --prefix=/usr
 RUN make -j`nproc`
 RUN make install
